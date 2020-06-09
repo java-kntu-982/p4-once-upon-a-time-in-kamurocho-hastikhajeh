@@ -1,71 +1,107 @@
 package ir.ac.kntu;
 
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PathTransition;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.*;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main extends Application {
-    // this class is just a sample
-    // clear the start menu and start writing your project!
+    Circle circle = new Circle(5);
+    Circle circle1 = new Circle(500,200,15, Color.YELLOW);
+    Circle circle2 = new Circle(500,300,15, Color.GREEN);
+    ProgressBar bar1 = new ProgressBar(1);
+    Circle circle3 = new Circle();
+    double x, y;
+
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Group root = new Group();
-        Scene scene = new Scene(root, 800, 600, false, SceneAntialiasing.BALANCED);
+        Scene scene = new Scene(root, 800,600);
         stage.setScene(scene);
-        Camera camera = new ParallelCamera();
-        scene.setCamera(camera);
-        stage.setTitle("Once Upon a Time in Kamurocho!");
-        Circle circle = new Circle(100, Color.rgb(128, 50, 110, 0.9));
-        Rectangle rectangle = new Rectangle(40, 40, Color.web("0x01abff"));
-        circle.setCenterX(200);
-        circle.setCenterY(200);
-        rectangle.setX(400);
-        rectangle.setY(400);
-        circle.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            double dx = e.getX() - circle.getCenterX();
-            double dy = e.getY() - circle.getCenterY();
-            circle.setCenterX(circle.getCenterX() + dx);
-            circle.setCenterY(circle.getCenterY() + dy);
+        scene.addEventHandler(MouseEvent.ANY, e -> {
+            circle.setCenterX(e.getX());
+            circle.setCenterY(e.getY());
         });
-        scene.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
-            rectangle.setX(e.getX() - 20);
-            rectangle.setY(e.getY() - 20);
+        AtomicBoolean b = new AtomicBoolean(false);
+        circle1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            circle3 = circle1;
+            b.set(true);
         });
-        scene.addEventFilter(MouseEvent.MOUSE_MOVED, e -> {
-            if (e.isAltDown()) {
+        circle2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            circle3 = circle2;
+            b.set(true);
+        });
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+            if (b.get()) {
+//                circle3.setCenterX(e.getX());
+//                circle3.setCenterY(e.getY());
+//                x = e.getX();
+//                y = e.getY();
+                Path path = new Path();
+                path.getElements().add(new MoveTo(circle3.getCenterX(),circle3.getCenterY()));
+                CubicCurveTo cct = new CubicCurveTo();
+                cct.setControlX1(circle3.getCenterX());
+                cct.setControlY1(circle3.getCenterY());
+                cct.setControlX2(circle3.getCenterX());
+                cct.setControlY2(circle3.getCenterY());
+                cct.setX(e.getX());
+                cct.setY(e.getY());
+                path.getElements().add (cct);
+                PathTransition pathTransition = new PathTransition();
+                pathTransition.setDuration(Duration.millis(1000));
+                pathTransition.setPath(path);
+                pathTransition.setNode(circle3);
+                pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+                pathTransition.setCycleCount((int) 1f);
+                pathTransition.setAutoReverse(true);
+                pathTransition.play();
+                circle3.setCenterX(e.getX());
+                circle3.setCenterY(e.getY());
+                b.set(false);
                 e.consume();
             }
         });
+        bar1.setScaleX(0.5);
+//        bar1.setTranslateX(20);
+        root.getChildren().addAll(circle, circle1, circle2, bar1);
+        stage.show();
+
+//        System.out.println(b);
+//        if (!b.get()) {
+//            while (circle3.getCenterY() != y && circle3.getCenterX() != x) {
+//                move(circle3, x, y);
+//            }
+//        }
+
         new AnimationTimer() {
             @Override
             public void handle(long l) {
-                rectangle.setRotate(rectangle.getRotate() + 5);
+                bar1.setProgress(bar1.getProgress() - 0.01);
             }
         }.start();
-        Timer timer = new Timer();
-        ProgressBar progressBar = new ProgressBar();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> progressBar.setProgress(progressBar.getProgress() + 0.1));
-            }
-        };
-        stage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, e -> e.consume());
-        timer.schedule(task, 1000, 500);
-        root.getChildren().addAll(circle, rectangle, progressBar);
-        stage.setResizable(false);
-        scene.setFill(Color.DARKGREEN);
-        stage.show();
+    }
+
+    public static void move(Circle circle, double x, double y) {
+        double xSpeed = (x - circle.getCenterX())/Math.hypot(circle.getCenterX() - x, circle.getCenterY() - y);
+        double ySpeed = (y - circle.getCenterY())/Math.hypot(circle.getCenterX() - x, circle.getCenterY() - y);
+        circle.setCenterX(circle.getCenterX() + xSpeed);
+        circle.setCenterY(circle.getCenterY() + ySpeed);
     }
 }

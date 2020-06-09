@@ -1,27 +1,23 @@
 package ir.ac.kntu.soldier;
 
+import ir.ac.kntu.scene.Window;
+import javafx.scene.control.ProgressBar;
+
 public abstract class Soldier {
-    private String name;
     private double health;
     private double attack;
     private double attackRange;
+    private final double attackRangeConst = Math.hypot(Window.getHEIGHT(),Window.getWIDTH())/20;
     private double x;
     private double y;
     private double speed;
     private double xSpeed;
     private double ySpeed;
+    private ProgressBar bar;
 
     public Soldier(double x, double y) {
         this.x = x;
         this.y = y;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getHealth() {
@@ -86,5 +82,17 @@ public abstract class Soldier {
 
     public void setySpeed(double ySpeed) {
         this.ySpeed = ySpeed;
+    }
+
+    public double getAttackRangeConst() {
+        return attackRangeConst;
+    }
+
+    public ProgressBar getBar() {
+        return bar;
+    }
+
+    public void setBar(ProgressBar bar) {
+        this.bar = bar;
     }
 }

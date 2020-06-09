@@ -1,4 +1,5 @@
-open module p.once.upon.a.time.in.kamurocho {
+open module
+p.once.upon.a.time.in.kamurocho {
     requires transitive javafx.base;
     requires transitive javafx.media;
     requires transitive javafx.graphics;
