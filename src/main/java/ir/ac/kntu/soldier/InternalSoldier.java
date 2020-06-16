@@ -1,15 +1,10 @@
 package ir.ac.kntu.soldier;
 
 import ir.ac.kntu.scene.Window;
-import javafx.animation.PathTransition;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +18,14 @@ public abstract class InternalSoldier extends Soldier {
     private List<EnemySoldier> enemyInAttackRange;
     private Double finalX;
     private Double finalY;
+    private Integer lvl;
 
     public InternalSoldier(double x, double y, double health, double attack, double attackRange, double fieldOfView, Circle shape, Text text) {
         super(x, y);
         setHealth(health);
         setAttack(attack);
         setAttackRange(attackRange);
+        lvl = 1;
         this.fieldOfView = fieldOfView;
         this.shape = shape;
         shape.setCenterX(x);
@@ -72,8 +69,6 @@ public abstract class InternalSoldier extends Soldier {
 //        if (!enemyInAttackRange.isEmpty()) {
 //            setxSpeed(0);
 //            setySpeed(0);
-//            finalX = getX();
-//            finalY = getY();
 //        }
         if (enemyInAttackRange.isEmpty()) {
             if (!gotToFinalPoint()) {
@@ -148,6 +143,14 @@ public abstract class InternalSoldier extends Soldier {
         setY(shape.getCenterY());
     }
 
+    public void lvlUp() {
+        lvl++;
+        double num = getHealth()*1.04;
+        setHealth((int) num);
+        num = getAttack()*1.04;
+        setAttack((int) num);
+    }
+
     public Circle getShape() {
         return shape;
     }
@@ -178,6 +181,14 @@ public abstract class InternalSoldier extends Soldier {
 
     public List<EnemySoldier> getEnemyInAttackRange() {
         return enemyInAttackRange;
+    }
+
+    public Integer getLvl() {
+        return lvl;
+    }
+
+    public void setLvl(Integer lvl) {
+        this.lvl = lvl;
     }
 }
 //    public void move(double x, double y, boolean playerOrder) {

@@ -1,5 +1,6 @@
 package ir.ac.kntu.scene;
 
+import ir.ac.kntu.block.Block;
 import ir.ac.kntu.gameLogic.Game;
 import ir.ac.kntu.material.item.Container;
 import ir.ac.kntu.material.item.Material;
@@ -35,13 +36,16 @@ public class Window extends Application {
 
     @Override
     public void init() throws Exception {
-        game = new Game(new ArrayList<InternalSoldier>(), new ArrayList<EnemySoldier>(), new ArrayList<Material>(), 100);
+        game = new Game(new ArrayList<InternalSoldier>(), new ArrayList<EnemySoldier>(), new ArrayList<Material>(), new ArrayList<Block>(), 100);
 
         game.getInternalSoldiers().add(new DaigoDojima(650,200));
         game.getInternalSoldiers().add(new FutoshiShimano(650,400));
         game.getEnemySoldiers().add(new RedSoldier(100,200));
         game.getEnemySoldiers().add(new RedSoldier(100,300));
         game.getItems().add(new Container(700, 300));
+//        game.getBlocks().add(new Block(430,0));
+//        game.getBlocks().add(new Block(430,255));
+//        game.getBlocks().add(new Block(430,510));
     }
 
 
@@ -77,6 +81,7 @@ public class Window extends Application {
         game.getItems().forEach(it -> root.getChildren().add(it.getText()));
         game.getEnemySoldiers().forEach(en -> root.getChildren().add(en.getShape()));
         game.getEnemySoldiers().forEach(en -> root.getChildren().add(en.getBar()));
+        game.getBlocks().forEach(bl -> root.getChildren().add(bl.getShape()));
         stage.show();
 
     new AnimationTimer() {

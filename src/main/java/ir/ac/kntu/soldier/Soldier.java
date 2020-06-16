@@ -4,8 +4,8 @@ import ir.ac.kntu.scene.Window;
 import javafx.scene.control.ProgressBar;
 
 public abstract class Soldier {
-    private double health;
-    private double attack;
+    private Double health;
+    private Double attack;
     private double attackRange;
     private final double attackRangeConst = Math.hypot(Window.getHEIGHT(),Window.getWIDTH())/20;
     private double x;
@@ -20,7 +20,7 @@ public abstract class Soldier {
         this.y = y;
     }
 
-    public double getHealth() {
+    public Double getHealth() {
         return health;
     }
 
@@ -28,7 +28,7 @@ public abstract class Soldier {
         this.health = health;
     }
 
-    public double getAttack() {
+    public Double getAttack() {
         return attack;
     }
 
