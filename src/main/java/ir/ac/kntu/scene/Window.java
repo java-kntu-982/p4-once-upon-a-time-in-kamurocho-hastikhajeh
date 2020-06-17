@@ -98,7 +98,7 @@ public class Window extends Application {
             game.getInternalSoldiers().forEach(InternalSoldier::attack);
             game.getEnemySoldiers().forEach(en -> en.makeInternalInAttackRange(game.getInternalSoldiers()));
             game.getEnemySoldiers().forEach(EnemySoldier::attack);
-            game.getEnemySoldiers().forEach(en -> en.fadeIfDead(game.getEnemySoldiers()));
+            game.getEnemySoldiers().forEach(en -> en.fadeIfDead(game.getEnemySoldiers(), game));
         }
     }.start();
 

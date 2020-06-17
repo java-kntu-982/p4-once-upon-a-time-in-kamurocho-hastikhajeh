@@ -13,6 +13,7 @@ public abstract class Soldier {
     private double speed;
     private double xSpeed;
     private double ySpeed;
+    private boolean dead;
     private ProgressBar bar;
 
     public Soldier(double x, double y) {
@@ -86,6 +87,14 @@ public abstract class Soldier {
 
     public double getAttackRangeConst() {
         return attackRangeConst;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 
     public ProgressBar getBar() {

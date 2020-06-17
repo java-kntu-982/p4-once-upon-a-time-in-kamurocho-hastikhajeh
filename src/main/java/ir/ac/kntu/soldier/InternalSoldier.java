@@ -1,10 +1,12 @@
 package ir.ac.kntu.soldier;
 
 import ir.ac.kntu.scene.Window;
+import javafx.animation.FadeTransition;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,10 +68,6 @@ public abstract class InternalSoldier extends Soldier {
     }
 
     public void move() {
-//        if (!enemyInAttackRange.isEmpty()) {
-//            setxSpeed(0);
-//            setySpeed(0);
-//        }
         if (enemyInAttackRange.isEmpty()) {
             if (!gotToFinalPoint()) {
                 shape.setCenterX(shape.getCenterX() + getxSpeed());
@@ -136,6 +134,27 @@ public abstract class InternalSoldier extends Soldier {
             }
         }
         return enemySoldier;
+    }
+
+    public void fadeIfDead(List<InternalSoldier> internalSoldiers) {
+        if (getBar().getProgress() < 0.1) {
+            FadeTransition fade1 = new FadeTransition(Duration.millis(500), getShape());
+            fade1.setFromValue(1);
+            fade1.setToValue(0);
+            FadeTransition fade2 = new FadeTransition(Duration.millis(500), getBar());
+            fade2.setFromValue(1);
+            fade2.setToValue(0);
+            FadeTransition fade3 = new FadeTransition(Duration.millis(500), getText());
+            fade3.setFromValue(1);
+            fade3.setToValue(0);
+
+            fade1.setOnFinished(event -> {
+                internalSoldiers.remove(this);
+            });
+            fade1.play();
+            fade2.play();
+            fade3.play();
+        }
     }
 
     public void setXAndY() {

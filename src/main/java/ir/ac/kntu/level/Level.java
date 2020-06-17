@@ -3,6 +3,7 @@ package ir.ac.kntu.level;
 import ir.ac.kntu.gameLogic.Game;
 import ir.ac.kntu.material.item.Material;
 import ir.ac.kntu.soldier.EnemySoldier;
+import javafx.scene.Group;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,9 +13,10 @@ public class Level {
     private int currantWave;
     private int enemyNum;
     private List<List<EnemySoldier>> enemyWaves;
-    private List<Material> items;
+//    private List<Material> items;
+    private List<String> items;
 
-    public Level(int waves, int enemyNum, List<List<EnemySoldier>> enemyWaves, List<Material> items) {
+    public Level(int waves, int enemyNum, List<List<EnemySoldier>> enemyWaves, List<String> items) {
         this.waves = waves;
         currantWave = 0;
         this.enemyNum = enemyNum;
@@ -22,8 +24,8 @@ public class Level {
         this.items = items;
     }
 
-    public void setWaves(Game game) {
-        if (currantWave < waves) {
+    public void setWaves(Game game, Group root) {
+        if (currantWave < waves ) {
             AtomicBoolean allDead = new AtomicBoolean(true);
             game.getEnemySoldiers().forEach(en -> {
                 if (en.getBar().getProgress() > 0.1) {
@@ -32,11 +34,23 @@ public class Level {
             });
             if (allDead.get()) {
                 currantWave++;
-                game.setEnemySoldiers(enemyWaves.get(currantWave));
+                if (currantWave < waves) {
+                    game.setEnemySoldiers(enemyWaves.get(currantWave));
+                    game.getEnemySoldiers().forEach(en -> root.getChildren().add(en.getShape()));
+                    game.getEnemySoldiers().forEach(en -> root.getChildren().add(en.getBar()));
+                }
             }
         } else {
             System.out.println("it's done");
         }
+    }
+
+    public boolean itsDone(Game game) {
+        return currantWave >= waves || game.getItems().isEmpty();
+    }
+
+    public boolean won() {
+        return currantWave >= waves;
     }
 
     public int getWaves() {
@@ -51,7 +65,7 @@ public class Level {
         return enemyWaves;
     }
 
-    public List<Material> getItems() {
+    public List<String> getItems() {
         return items;
     }
 

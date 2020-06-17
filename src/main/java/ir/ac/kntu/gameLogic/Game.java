@@ -44,9 +44,15 @@ public class Game {
         allInternalSoldiers.add(new SoheiDojima(450, 150));
         allInternalSoldiers.add(new TaigaSaejima(450,450));
         allItems = new ArrayList<>();
-        allItems.add(new Van(850, 200));
-        allItems.add(new Container(850, 350));
-        allItems.add(new Truck(850, 450));
+        allItems.add(new Van(820, 200));
+        allItems.add(new Container(820, 150));
+        allItems.add(new Truck(820, 250));
+        start = false;
+    }
+
+    public void reset() {
+        internalSoldiers = new ArrayList<>();
+        items = new ArrayList<>();
         start = false;
     }
 

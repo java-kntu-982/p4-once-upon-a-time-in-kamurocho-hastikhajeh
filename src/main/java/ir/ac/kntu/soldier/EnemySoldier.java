@@ -1,5 +1,6 @@
 package ir.ac.kntu.soldier;
 
+import ir.ac.kntu.gameLogic.Game;
 import ir.ac.kntu.material.item.Material;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.ProgressBar;
@@ -50,18 +51,29 @@ public abstract class EnemySoldier extends Soldier {
             setxSpeed(0);
             setySpeed(0);
         } else {
-            setxSpeed((item.getX() - getX()) / Math.hypot(item.getX() - getX(), item.getY() - getY()));
-            setySpeed((item.getY() - getY()) / Math.hypot(item.getX() - getX(), item.getY() - getY()));
+            setxSpeed((item.getX() - getX()) / Math.hypot(item.getX() - getX(), item.getY() + 30 - getY()));
+            setySpeed((item.getY() + 30 - getY()) / Math.hypot(item.getX() - getX(), item.getY() + 30 - getY()));
         }
     }
 
     public boolean stop(List<Material> materials) {
-        for (Material material: materials) {
-            if (getX() == material.getX() && getY() == material.getY()) {
-                return true;
+        if (!materials.isEmpty()) {
+//            materials.forEach(System.out::println);
+            for (Material material : materials) {
+                if (Math.hypot(getX() - material.getX(), getY() - material.getY()) < getAttackRangeConst()) {
+                    if (material.getShape().getOpacity() > 0.0001) {
+                        material.getShape().setOpacity(material.getShape().getOpacity() - 0.000001 * getAttack() + 0.00000001 * material.getDurability());
+                        material.getText().setOpacity(material.getText().getOpacity() - 0.000001 * getAttack() + +0.00000001 * material.getDurability());
+                        return true;
+                    } else {
+                        materials.remove(material);
+                    }
+                }
             }
+            return false;
         }
-        return false;
+        System.out.println("nn");
+        return true;
     }
 
     public void makeInternalInAttackRange(List<InternalSoldier> internalSoldiers) {
@@ -74,15 +86,19 @@ public abstract class EnemySoldier extends Soldier {
                 internalInAttackRange.remove(internal);
             }
         }
+        internalInAttackRange.removeIf(internal -> {
+            attackedBy = null;
+            return !internalSoldiers.contains(internal);
+        });
     }
 
     public void attack() {
         for (InternalSoldier internal: internalInAttackRange) {
-            internal.getBar().setProgress(internal.getBar().getProgress() - getAttack()*0.000001);
+            internal.getBar().setProgress(internal.getBar().getProgress() - getAttack()*0.0000005);
         }
     }
 
-    public void fadeIfDead(List<EnemySoldier> enemySoldiers) {
+    public void fadeIfDead(List<EnemySoldier> enemySoldiers, Game game) {
         if (getBar().getProgress() < 0.1) {
             FadeTransition fade1 = new FadeTransition(Duration.millis(500), getShape());
             fade1.setFromValue(1);
@@ -95,19 +111,23 @@ public abstract class EnemySoldier extends Soldier {
             });
             fade1.play();
             fade2.play();
+            game.setMoney(game.getMoney()+1);
         }
     }
 
     public Material nearest(List<Material> items) {
-        double min = Math.hypot(getX() - items.get(0).getX(), getY() - items.get(0).getY());
-        Material material = items.get(0);
-        for (Material mat: items) {
-            if (min > Math.hypot(getX() - mat.getX(), getY() - mat.getY())) {
-                min = Math.hypot(getX() - mat.getX(), getY() - mat.getY());
-                material = mat;
+        if (!items.isEmpty()) {
+            double min = Math.hypot(getX() - items.get(0).getX(), getY() - items.get(0).getY());
+            Material material = items.get(0);
+            for (Material mat : items) {
+                if (min > Math.hypot(getX() - mat.getX(), getY() - mat.getY())) {
+                    min = Math.hypot(getX() - mat.getX(), getY() - mat.getY());
+                    material = mat;
+                }
             }
+            return material;
         }
-        return material;
+        return null;
     }
 
     public void setXAndY() {

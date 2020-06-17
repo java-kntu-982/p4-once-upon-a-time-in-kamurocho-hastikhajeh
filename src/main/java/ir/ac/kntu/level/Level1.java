@@ -3,7 +3,9 @@ package ir.ac.kntu.level;
 import ir.ac.kntu.gameLogic.Game;
 import ir.ac. kntu.soldier.EnemySoldier;
 import ir.ac.kntu.soldier.enemy.BossLevel1;
+import ir.ac.kntu.soldier.enemy.GraySoldier;
 import ir.ac.kntu.soldier.enemy.RedSoldier;
+import ir.ac.kntu.soldier.enemy.YellowSoldier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +20,8 @@ public class Level1 extends Level {
         getEnemyWaves().add(makeWave45());
         getEnemyWaves().add(makeWave45());
         getEnemyWaves().add(makeWave6());
-        game.getAllItems().get(1).setX(820);
-        game.getAllItems().get(1).setY(150);
-        game.getAllItems().get(2).setX(100);
-        game.getAllItems().get(2).setY(350);
-        game.getItems().add(game.getAllItems().get(2));
-        game.getItems().add(game.getAllItems().get(1));
-        getItems().add(game.getAllItems().get(2));
-        getItems().add(game.getAllItems().get(1));
-//        game.setLevel(this);
+        game.getItems().add(0, game.getAllItems().get(2));
+        game.getItems().add(1, game.getAllItems().get(1));
     }
 
     private List<EnemySoldier> makeWave123() {
@@ -43,7 +38,7 @@ public class Level1 extends Level {
         List<EnemySoldier> wave = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 10; j++) {
-                wave.add(new RedSoldier(30 + 20*i, 150 + 15*(2*j+1)));
+                wave.add(new GraySoldier(30 + 20*i, 150 + 15*(2*j+1)));
             }
         }
         return wave;
