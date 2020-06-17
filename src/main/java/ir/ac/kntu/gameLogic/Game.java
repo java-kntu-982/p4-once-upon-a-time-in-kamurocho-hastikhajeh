@@ -18,13 +18,13 @@ public class Game {
     private List<EnemySoldier> enemySoldiers;
     private List<Material> items;
     private List<Block> blocks;
-    private Integer money;
+    private Double money;
     private List<InternalSoldier> allInternalSoldiers;
     private List<Material> allItems;
     private Level level;
     private boolean start;
 
-    public Game(ArrayList<InternalSoldier> internalSoldiers, ArrayList<EnemySoldier> enemySoldiers, ArrayList<Material> items, ArrayList<Block> blocks, Integer money) {
+    public Game(ArrayList<InternalSoldier> internalSoldiers, ArrayList<EnemySoldier> enemySoldiers, ArrayList<Material> items, ArrayList<Block> blocks, Double money) {
         this.internalSoldiers = internalSoldiers;
         this.enemySoldiers = enemySoldiers;
         this.items = items;
@@ -44,14 +44,38 @@ public class Game {
         allInternalSoldiers.add(new SoheiDojima(450, 150));
         allInternalSoldiers.add(new TaigaSaejima(450,450));
         allItems = new ArrayList<>();
-        allItems.add(new Van(820, 200));
+        allItems.add(new Van(800, 250));
         allItems.add(new Container(820, 150));
         allItems.add(new Truck(820, 250));
         start = false;
     }
 
     public void reset() {
-        internalSoldiers = new ArrayList<>();
+        allInternalSoldiers.get(0).setXY(600, 300);
+        allInternalSoldiers.get(1).setXY(600, 200);
+        allInternalSoldiers.get(2).setXY(600, 400);
+        allInternalSoldiers.get(3).setXY(550, 150);
+        allInternalSoldiers.get(4).setXY(550, 250);
+        allInternalSoldiers.get(5).setXY(550, 350);
+        allInternalSoldiers.get(6).setXY(550, 450);
+        allInternalSoldiers.get(7).setXY(500, 200);
+        allInternalSoldiers.get(8).setXY(500, 300);
+        allInternalSoldiers.get(9).setXY(500, 400);
+        allInternalSoldiers.get(10).setXY(450, 150);
+        allInternalSoldiers.get(11).setXY(450, 450);
+        allInternalSoldiers.forEach(in -> {
+            in.setDead(false);
+            in.getShape().setOpacity(1);
+            in.getText().setOpacity(1);
+            in.getBar().setOpacity(1);
+            in.getBar().setProgress(1);
+            in.setxSpeed(0);
+            in.setySpeed(0);
+        });
+        allItems.forEach(it -> {
+            it.getShape().setOpacity(1);
+            it.getText().setOpacity(1);
+        });
         items = new ArrayList<>();
         start = false;
     }
@@ -89,13 +113,13 @@ public class Game {
         return allItems;
     }
 
-    public Integer getMoney() {
+    public Double getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(double money) {
         if (money < 0) {
-            this.money = 0;
+            this.money = 0d;
         } else {
             this.money = money;
         }

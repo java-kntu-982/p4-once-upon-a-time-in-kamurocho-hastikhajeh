@@ -34,84 +34,85 @@ public abstract class EnemySoldier extends Soldier {
     }
 
     public void move() {
-        if (internalInAttackRange.isEmpty()) {
-            shape.setX(getX() + getxSpeed());
-            shape.setY(getY() + getySpeed());
-            getBar().setLayoutX(getX() + getxSpeed() - shape.getWidth() - 45);
-            getBar().setLayoutY(getY() + getySpeed() - shape.getHeight() - 30);
+        if (!isDead()) {
+            if (internalInAttackRange.isEmpty()) {
+                shape.setX(getX() + getxSpeed());
+                shape.setY(getY() + getySpeed());
+                getBar().setLayoutX(getX() + getxSpeed() - shape.getWidth() - 45);
+                getBar().setLayoutY(getY() + getySpeed() - shape.getHeight() - 30);
+            }
         }
     }
 
     public void setXYSpeed(List<Material> items) {
-        Material item = nearest(items);
-        if (attackedBy != null) {
-            setxSpeed((attackedBy.getX() - getX()) / Math.hypot(attackedBy.getX() - getX(), attackedBy.getY() - getY()));
-            setySpeed((attackedBy.getY() - getY()) / Math.hypot(attackedBy.getX() - getX(), attackedBy.getY() - getY()));
-        } else if (stop(items)) {
-            setxSpeed(0);
-            setySpeed(0);
-        } else {
-            setxSpeed((item.getX() - getX()) / Math.hypot(item.getX() - getX(), item.getY() + 30 - getY()));
-            setySpeed((item.getY() + 30 - getY()) / Math.hypot(item.getX() - getX(), item.getY() + 30 - getY()));
+        if (!isDead()) {
+            Material item = nearest(items);
+            if (attackedBy != null) {
+                setxSpeed((attackedBy.getX() - getX()) / Math.hypot(attackedBy.getX() - getX(), attackedBy.getY() - getY()));
+                setySpeed((attackedBy.getY() - getY()) / Math.hypot(attackedBy.getX() - getX(), attackedBy.getY() - getY()));
+            } else if (stop(items)) {
+                setxSpeed(0);
+                setySpeed(0);
+            } else {
+                setxSpeed((item.getX() - getX()) / Math.hypot(item.getX() - getX(), item.getY() + 30 - getY()));
+                setySpeed((item.getY() + 30 - getY()) / Math.hypot(item.getX() - getX(), item.getY() + 30 - getY()));
+            }
         }
     }
 
     public boolean stop(List<Material> materials) {
-        if (!materials.isEmpty()) {
-//            materials.forEach(System.out::println);
+        if (!isDead()) {
             for (Material material : materials) {
                 if (Math.hypot(getX() - material.getX(), getY() - material.getY()) < getAttackRangeConst()) {
                     if (material.getShape().getOpacity() > 0.0001) {
-                        material.getShape().setOpacity(material.getShape().getOpacity() - 0.000001 * getAttack() + 0.00000001 * material.getDurability());
-                        material.getText().setOpacity(material.getText().getOpacity() - 0.000001 * getAttack() + +0.00000001 * material.getDurability());
+                        material.getShape().setOpacity(material.getShape().getOpacity() - 0.0000001 * getAttack() + 0.000000001 * material.getDurability());
+                        material.getText().setOpacity(material.getText().getOpacity() - 0.0000001 * getAttack() + +0.000000001 * material.getDurability());
                         return true;
                     } else {
                         materials.remove(material);
+                        break;
                     }
                 }
             }
             return false;
         }
-        System.out.println("nn");
         return true;
     }
 
     public void makeInternalInAttackRange(List<InternalSoldier> internalSoldiers) {
-        for (InternalSoldier internal: internalSoldiers) {
-            if (getAttackRangeConst() >= Math.hypot(getX() - internal.getX(), getY() - internal.getY())) {
-                if (!internalInAttackRange.contains(internal)) {
-                    internalInAttackRange.add(internal);
+        if (!isDead()) {
+            for (InternalSoldier internal : internalSoldiers) {
+                if (!internal.isDead()) {
+                    if (getAttackRangeConst() >= Math.hypot(getX() - internal.getX(), getY() - internal.getY())) {
+                        if (!internalInAttackRange.contains(internal)) {
+                            internalInAttackRange.add(internal);
+                        }
+                    } else {
+                        internalInAttackRange.remove(internal);
+                    }
                 }
-            } else {
-                internalInAttackRange.remove(internal);
             }
+            internalInAttackRange.removeIf(internal -> {
+                attackedBy = null;
+                return internal.isDead();
+            });
         }
-        internalInAttackRange.removeIf(internal -> {
-            attackedBy = null;
-            return !internalSoldiers.contains(internal);
-        });
     }
 
     public void attack() {
-        for (InternalSoldier internal: internalInAttackRange) {
-            internal.getBar().setProgress(internal.getBar().getProgress() - getAttack()*0.0000005);
+        if (!isDead()) {
+            for (InternalSoldier internal : internalInAttackRange) {
+                internal.getBar().setProgress(internal.getBar().getProgress() - getAttack() * 0.0000005 + internal.getHealth() * 0.00000005);
+            }
         }
     }
 
-    public void fadeIfDead(List<EnemySoldier> enemySoldiers, Game game) {
+    public void fadeIfDead(Game game) {
         if (getBar().getProgress() < 0.1) {
-            FadeTransition fade1 = new FadeTransition(Duration.millis(500), getShape());
-            fade1.setFromValue(1);
-            fade1.setToValue(0);
-            FadeTransition fade2 = new FadeTransition(Duration.millis(500), getBar());
-            fade2.setFromValue(1);
-            fade2.setToValue(0);
-            fade1.setOnFinished(event -> {
-                enemySoldiers.remove(this);
-            });
-            fade1.play();
-            fade2.play();
-            game.setMoney(game.getMoney()+1);
+            getShape().setOpacity(0);
+            getBar().setOpacity(0);
+            setDead(true);
+            game.setMoney(game.getMoney()+0.01);
         }
     }
 

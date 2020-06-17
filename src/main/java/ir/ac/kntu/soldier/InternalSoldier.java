@@ -49,78 +49,97 @@ public abstract class InternalSoldier extends Soldier {
 
 
     public void setXYSpeed(double x, double y, boolean playerOrder) {
-        if (playerOrder) {
-            finalX = x;
-            finalY = y;
-        } else {
-            finalX = null;
-            finalY = null;
+        if (!isDead()) {
+            if (playerOrder) {
+                finalX = x;
+                finalY = y;
+            } else {
+                finalX = null;
+                finalY = null;
+            }
+            setxSpeed((x - getX()) / Math.hypot(x - getX(), y - getY()));
+            setySpeed((y - getY()) / Math.hypot(x - getX(), y - getY()));
         }
-        setxSpeed((x - getX()) / Math.hypot(x - getX(), y - getY()));
-        setySpeed((y - getY()) / Math.hypot(x - getX(), y - getY()));
     }
 
     public boolean gotToFinalPoint() {
-        if (finalX != null && finalY != null) {
-            return Math.hypot(finalX - getX(), finalY - getY()) < 0.5;
+        if (!isDead()) {
+            if (finalX != null && finalY != null) {
+                return Math.hypot(finalX - getX(), finalY - getY()) < 0.5;
+            }
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void move() {
-        if (enemyInAttackRange.isEmpty()) {
-            if (!gotToFinalPoint()) {
-                shape.setCenterX(shape.getCenterX() + getxSpeed());
-                shape.setCenterY(shape.getCenterY() + getySpeed());
-                text.setX(shape.getCenterX() - 5);
-                text.setY(shape.getCenterY() + 7);
-                getBar().setLayoutX(shape.getCenterX() - shape.getRadius());
-                getBar().setLayoutY(shape.getCenterY() - shape.getRadius());
+        if (!isDead()) {
+            if (enemyInAttackRange.isEmpty()) {
+                if (!gotToFinalPoint()) {
+                    shape.setCenterX(shape.getCenterX() + getxSpeed());
+                    shape.setCenterY(shape.getCenterY() + getySpeed());
+                    text.setX(shape.getCenterX() - 5);
+                    text.setY(shape.getCenterY() + 7);
+                    getBar().setLayoutX(shape.getCenterX() - shape.getRadius());
+                    getBar().setLayoutY(shape.getCenterY() - shape.getRadius());
+                }
             }
         }
     }
 
     public void makeEnemyInFieldOfViewList(List<EnemySoldier> enemySoldiers) {
-        for (EnemySoldier enemy: enemySoldiers) {
-            if (fieldOfViewConst >= Math.hypot(getX() - enemy.getX(), getY() - enemy.getY())) {
-                if (!enemyInFieldOfView.contains(enemy)) {
-                    enemyInFieldOfView.add(enemy);
+        if (!isDead()) {
+            for (EnemySoldier enemy : enemySoldiers) {
+                if (!enemy.isDead()) {
+                    if (fieldOfViewConst >= Math.hypot(getX() - enemy.getX(), getY() - enemy.getY())) {
+                        if (!enemyInFieldOfView.contains(enemy)) {
+                            enemyInFieldOfView.add(enemy);
+                        }
+                    } else {
+                        enemyInFieldOfView.remove(enemy);
+                    }
                 }
-            } else {
-                enemyInFieldOfView.remove(enemy);
             }
+            enemyInFieldOfView.removeIf(Soldier::isDead);
         }
-        enemyInFieldOfView.removeIf(enemy -> !enemySoldiers.contains(enemy));
     }
 
     public void makeEnemyInAttackRange() {
-        for (EnemySoldier enemy: enemyInFieldOfView) {
-            if (getAttackRangeConst() >= Math.hypot(getX() - enemy.getX(), getY() - enemy.getY())) {
-                if (!enemyInAttackRange.contains(enemy)) {
-                    enemyInAttackRange.add(enemy);
+        if (!isDead()) {
+            for (EnemySoldier enemy : enemyInFieldOfView) {
+                if (!enemy.isDead()) {
+                    if (getAttackRangeConst() >= Math.hypot(getX() - enemy.getX(), getY() - enemy.getY())) {
+                        if (!enemyInAttackRange.contains(enemy)) {
+                            enemyInAttackRange.add(enemy);
+                        }
+                    } else {
+                        enemyInAttackRange.remove(enemy);
+                    }
                 }
-            } else {
-                enemyInAttackRange.remove(enemy);
             }
+            enemyInAttackRange.removeIf(enemy -> {
+                setxSpeed(0);
+                setySpeed(0);
+                return enemy.isDead();
+            });
         }
-        enemyInAttackRange.removeIf(enemy -> {
-            setxSpeed(0);
-            setySpeed(0);
-            return !enemyInFieldOfView.contains(enemy);
-        });
     }
 
     public void goForEnemy() {
-        if (!enemyInFieldOfView.isEmpty()) {
-            EnemySoldier enemy = nearestEnemy(enemyInFieldOfView);
-            setXYSpeed(enemy.getX(), enemy.getY(), false);
+        if (!isDead()) {
+            if (!enemyInFieldOfView.isEmpty()) {
+                EnemySoldier enemy = nearestEnemy(enemyInFieldOfView);
+                setXYSpeed(enemy.getX(), enemy.getY(), false);
+            }
         }
     }
 
     public void attack() {
-        for (EnemySoldier enemy: enemyInAttackRange) {
-            enemy.getBar().setProgress(enemy.getBar().getProgress()-getAttack()*0.000003);
-            enemy.setAttackedBy(this);
+        if (!isDead()) {
+            for (EnemySoldier enemy : enemyInAttackRange) {
+                enemy.getBar().setProgress(enemy.getBar().getProgress() - getAttack() * 0.000003 + enemy.getHealth()*0.0000001);
+                enemy.setAttackedBy(this);
+            }
         }
     }
 
@@ -136,25 +155,24 @@ public abstract class InternalSoldier extends Soldier {
         return enemySoldier;
     }
 
-    public void fadeIfDead(List<InternalSoldier> internalSoldiers) {
+    public void fadeIfDead() {
         if (getBar().getProgress() < 0.1) {
-            FadeTransition fade1 = new FadeTransition(Duration.millis(500), getShape());
-            fade1.setFromValue(1);
-            fade1.setToValue(0);
-            FadeTransition fade2 = new FadeTransition(Duration.millis(500), getBar());
-            fade2.setFromValue(1);
-            fade2.setToValue(0);
-            FadeTransition fade3 = new FadeTransition(Duration.millis(500), getText());
-            fade3.setFromValue(1);
-            fade3.setToValue(0);
-
-            fade1.setOnFinished(event -> {
-                internalSoldiers.remove(this);
-            });
-            fade1.play();
-            fade2.play();
-            fade3.play();
+            getShape().setOpacity(0);
+            getText().setOpacity(0);
+            getBar().setOpacity(0);
+            setDead(true);
         }
+    }
+
+    public void setXY(double x, double y) {
+        setX(x);
+        setY(y);
+        shape.setCenterX(x);
+        shape.setCenterY(y);
+        text.setX(x - 7);
+        text.setY(y + 5);
+        getBar().setLayoutX(x - shape.getRadius());
+        getBar().setLayoutY(y - shape.getRadius());
     }
 
     public void setXAndY() {

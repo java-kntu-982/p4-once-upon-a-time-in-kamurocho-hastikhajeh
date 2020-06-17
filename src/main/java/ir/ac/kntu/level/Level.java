@@ -8,27 +8,26 @@ import javafx.scene.Group;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Level {
+public abstract class Level {
     private int waves;
     private int currantWave;
     private int enemyNum;
     private List<List<EnemySoldier>> enemyWaves;
-//    private List<Material> items;
-    private List<String> items;
 
-    public Level(int waves, int enemyNum, List<List<EnemySoldier>> enemyWaves, List<String> items) {
+    public Level(int waves, int enemyNum, List<List<EnemySoldier>> enemyWaves) {
         this.waves = waves;
         currantWave = 0;
         this.enemyNum = enemyNum;
         this.enemyWaves = enemyWaves;
-        this.items = items;
     }
+
+    abstract public void makeItems(Game game);
 
     public void setWaves(Game game, Group root) {
         if (currantWave < waves ) {
             AtomicBoolean allDead = new AtomicBoolean(true);
             game.getEnemySoldiers().forEach(en -> {
-                if (en.getBar().getProgress() > 0.1) {
+                if (!en.isDead()) {
                     allDead.set(false);
                 }
             });
@@ -41,6 +40,9 @@ public class Level {
                 }
             }
         } else {
+            System.out.println("it's done");
+        }
+        if (itsDone(game)) {
             System.out.println("it's done");
         }
     }
@@ -63,10 +65,6 @@ public class Level {
 
     public List<List<EnemySoldier>> getEnemyWaves() {
         return enemyWaves;
-    }
-
-    public List<String> getItems() {
-        return items;
     }
 
 }

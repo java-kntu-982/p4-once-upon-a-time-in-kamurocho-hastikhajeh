@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -70,7 +71,7 @@ public class Main extends Application {
     }
 
     private void initialSetting(Stage stage) {
-        game = new Game(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 1000);
+        game = new Game(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 1000d);
         startMenu(stage);
         missions(stage);
         organization(stage);
@@ -113,44 +114,34 @@ public class Main extends Application {
             game.getEnemySoldiers().forEach(en -> gamePane.getChildren().add(en.getShape()));
             game.getEnemySoldiers().forEach(en -> gamePane.getChildren().add(en.getBar()));
             game.getBlocks().forEach(bl -> gamePane.getChildren().add(bl.getShape()));
-            final boolean[] stop = {false};
             AnimationTimer timer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    if (!stop[0]) {
-                        game.getInternalSoldiers().forEach(InternalSoldier::setXAndY);
-                        game.getEnemySoldiers().forEach(EnemySoldier::setXAndY);
-                        try {
-                            game.getEnemySoldiers().forEach(en -> en.setXYSpeed(game.getItems()));
-                        } catch (NullPointerException ignored) {
-                        }
-                        game.getEnemySoldiers().forEach(EnemySoldier::move);
-                        game.getInternalSoldiers().forEach(InternalSoldier::goForEnemy);
-                        game.getInternalSoldiers().forEach(in -> in.makeEnemyInFieldOfViewList(game.getEnemySoldiers()));
-                        game.getInternalSoldiers().forEach(InternalSoldier::makeEnemyInAttackRange);
-                        game.getInternalSoldiers().forEach(InternalSoldier::move);
-                        game.getInternalSoldiers().forEach(InternalSoldier::attack);
-                        game.getEnemySoldiers().forEach(en -> en.makeInternalInAttackRange(game.getInternalSoldiers()));
-                        game.getEnemySoldiers().forEach(EnemySoldier::attack);
-                        game.getEnemySoldiers().forEach(en -> en.fadeIfDead(game.getEnemySoldiers(), game));
-                        game.getInternalSoldiers().forEach(in -> in.fadeIfDead(game.getInternalSoldiers()));
-                        game.getLevel().setWaves(game, gamePane);
-                        if (game.getLevel().itsDone(game)) {
-//                        game.reset();
-                            result(stage);
-                            stage.setScene(resultScene);
-                            stop[0] = true;
-                            stop();
-                        }
+                    game.getInternalSoldiers().forEach(InternalSoldier::setXAndY);
+                    game.getEnemySoldiers().forEach(EnemySoldier::setXAndY);
+//                    try {
+                        game.getEnemySoldiers().forEach(en -> en.setXYSpeed(game.getItems()));
+//                    } catch (NullPointerException ignored) {
+//                    }
+                    game.getEnemySoldiers().forEach(EnemySoldier::move);
+                    game.getInternalSoldiers().forEach(InternalSoldier::goForEnemy);
+                    game.getInternalSoldiers().forEach(in -> in.makeEnemyInFieldOfViewList(game.getEnemySoldiers()));
+                    game.getInternalSoldiers().forEach(InternalSoldier::makeEnemyInAttackRange);
+                    game.getInternalSoldiers().forEach(InternalSoldier::move);
+                    game.getInternalSoldiers().forEach(InternalSoldier::attack);
+                    game.getEnemySoldiers().forEach(en -> en.makeInternalInAttackRange(game.getInternalSoldiers()));
+                    game.getEnemySoldiers().forEach(EnemySoldier::attack);
+                    game.getEnemySoldiers().forEach(en -> en.fadeIfDead(game));
+                    game.getInternalSoldiers().forEach(InternalSoldier::fadeIfDead);
+                    game.getLevel().setWaves(game, gamePane);
+                    if (game.getLevel().itsDone(game)) {
+                        result(stage);
+                        stage.setScene(resultScene);
+                        stop();
                     }
                 }
             };
-            if (game.getLevel().itsDone(game)) {
-//                game.reset();
-//                result(stage);
-//                stage.setScene(resultScene);
-//                timer.stop();
-            } else {
+            if (!game.getLevel().itsDone(game)) {
                 timer.start();
             }
         }
@@ -169,7 +160,7 @@ public class Main extends Application {
             result.setText("you lost :(");
         }
 
-        Text earned = new Text("you have "+game.getMoney().toString()+" money now");
+        Text earned = new Text("you have "+String.format("%.2f",game.getMoney())+" money now");
         earned.setX(300);
         earned.setY(350);
         earned.setFont(Font.font("Vardana", 27));
@@ -181,6 +172,8 @@ public class Main extends Application {
         });
         back.setLayoutX(400);
         back.setLayoutY(400);
+        moneyTrain.setText(String.format("%.2f",game.getMoney()));
+        moneyFortify.setText(String.format("%.2f",game.getMoney()));
         resultPane.getChildren().addAll(result, earned, back);
     }
 
@@ -249,6 +242,7 @@ public class Main extends Application {
             game.setLevel(new Level1(game));
             game.setEnemySoldiers(game.getLevel().getEnemyWaves().get(0));
             game.setStart(true);
+            game.getLevel().makeItems(game);
             game(stage);
             gameControl(gameScene);
             stage.setScene(gameScene);
@@ -265,6 +259,7 @@ public class Main extends Application {
             game.setLevel(new Level2(game));
             game.setEnemySoldiers(game.getLevel().getEnemyWaves().get(0));
             game.setStart(true);
+            game.getLevel().makeItems(game);
             game(stage);
             gameControl(gameScene);
             stage.setScene(gameScene);
@@ -596,8 +591,8 @@ public class Main extends Application {
             fade.setOnFinished(e -> error.setText(""));
             fade.play();
         } else {
-            money.setText(Integer.toString(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10));
-            moneyFortify.setText(Integer.toString(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10));
+            money.setText(Double.toString(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10));
+            moneyFortify.setText(Double.toString(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10));
             game.setMoney(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10);
             game.getAllInternalSoldiers().get(index).lvlUp();
             lvlUp.setText(Integer.toString(-game.getAllInternalSoldiers().get(index).getLvl()*10));
@@ -630,7 +625,6 @@ public class Main extends Application {
         itemList.setHgap(50);
 
         moneyPane.setPadding(new Insets(30,30,30,30));
-//        money = new Text(game.getMoney().toString());
         moneyFortify.setText(game.getMoney().toString());
         moneyPane.getChildren().add(moneyFortify);
         AnchorPane.setTopAnchor(moneyFortify, 10.0);
@@ -695,8 +689,8 @@ public class Main extends Application {
             fade.setOnFinished(e -> error.setText(""));
             fade.play();
         } else {
-            money.setText(Integer.toString(game.getMoney() - game.getAllItems().get(index).getLvl()*100));
-            moneyTrain.setText(Integer.toString(game.getMoney() - game.getAllItems().get(index).getLvl()*100));
+            money.setText(Double.toString(game.getMoney() - game.getAllItems().get(index).getLvl()*100));
+            moneyTrain.setText(Double.toString(game.getMoney() - game.getAllItems().get(index).getLvl()*100));
             game.setMoney(game.getMoney() - game.getAllItems().get(index).getLvl()*100);
             game.getAllItems().get(index).lvlUp();
             lvlUp.setText(Integer.toString(-game.getAllItems().get(index).getLvl()*100));

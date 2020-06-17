@@ -36,7 +36,7 @@ public class Window extends Application {
 
     @Override
     public void init() throws Exception {
-        game = new Game(new ArrayList<InternalSoldier>(), new ArrayList<EnemySoldier>(), new ArrayList<Material>(), new ArrayList<Block>(), 100);
+        game = new Game(new ArrayList<InternalSoldier>(), new ArrayList<EnemySoldier>(), new ArrayList<Material>(), new ArrayList<Block>(), 100d);
 
         game.getInternalSoldiers().add(new DaigoDojima(650,200));
         game.getInternalSoldiers().add(new FutoshiShimano(650,400));
@@ -98,7 +98,7 @@ public class Window extends Application {
             game.getInternalSoldiers().forEach(InternalSoldier::attack);
             game.getEnemySoldiers().forEach(en -> en.makeInternalInAttackRange(game.getInternalSoldiers()));
             game.getEnemySoldiers().forEach(EnemySoldier::attack);
-            game.getEnemySoldiers().forEach(en -> en.fadeIfDead(game.getEnemySoldiers(), game));
+//            game.getEnemySoldiers().forEach(en -> en.fadeIfDead(game.getEnemySoldiers(), game));
         }
     }.start();
 

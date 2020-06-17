@@ -13,13 +13,16 @@ import java.util.List;
 public class Level1 extends Level {
 
     public Level1(Game game) {
-        super(6, 181, new ArrayList<>(), new ArrayList<>());
+        super(6, 181, new ArrayList<>());
         getEnemyWaves().add(makeWave123());
         getEnemyWaves().add(makeWave123());
         getEnemyWaves().add(makeWave123());
         getEnemyWaves().add(makeWave45());
         getEnemyWaves().add(makeWave45());
         getEnemyWaves().add(makeWave6());
+    }
+
+    public void makeItems(Game game) {
         game.getItems().add(0, game.getAllItems().get(2));
         game.getItems().add(1, game.getAllItems().get(1));
     }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Level2 extends Level {
     public Level2(Game game) {
-        super(8, 281, new ArrayList<>(), new ArrayList<>());
+        super(8, 281, new ArrayList<>());
         getEnemyWaves().add(makeWave123());
         getEnemyWaves().add(makeWave123());
         getEnemyWaves().add(makeWave123());
@@ -19,13 +19,13 @@ public class Level2 extends Level {
         getEnemyWaves().add(makeWave67());
         getEnemyWaves().add(makeWave67());
         getEnemyWaves().add(makeWave8());
-        game.getItems().add(game.getAllItems().get(0));
-        game.getItems().add(game.getAllItems().get(1));
-        getItems().add("Van");
-        getItems().add("Container");
-//        getItems().add(game.getAllItems().get(1));
-//        getItems().add(game.getAllItems().get(1));
     }
+
+    public void makeItems(Game game) {
+        game.getItems().add(0, game.getAllItems().get(0));
+        game.getItems().add(1, game.getAllItems().get(1));
+    }
+
     private List<EnemySoldier> makeWave123() {
         List<EnemySoldier> wave = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

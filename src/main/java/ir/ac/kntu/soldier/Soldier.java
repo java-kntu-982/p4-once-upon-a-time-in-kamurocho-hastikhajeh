@@ -21,6 +21,15 @@ public abstract class Soldier {
         this.y = y;
     }
 
+    public void setXY(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+
     public Double getHealth() {
         return health;
     }
