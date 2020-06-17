@@ -1,6 +1,6 @@
 package ir.ac.kntu.soldier;
 
-import ir.ac.kntu.scene.Window;
+import ir.ac.kntu.scene.Main;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class InternalSoldier extends Soldier {
     private final double fieldOfView;
-    private final double fieldOfViewConst = Math.hypot(Window.getHEIGHT(),Window.getWIDTH())/10;
+    private final double fieldOfViewConst = Math.hypot(Main.getHEIGHT(),Main.getWIDTH())/10;
     private Circle shape;
     private Text text;
     private List<EnemySoldier> enemyInFieldOfView;

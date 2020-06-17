@@ -1,13 +1,13 @@
 package ir.ac.kntu.soldier;
 
-import ir.ac.kntu.scene.Window;
+import ir.ac.kntu.scene.Main;
 import javafx.scene.control.ProgressBar;
 
 public abstract class Soldier {
     private Double health;
     private Double attack;
     private double attackRange;
-    private final double attackRangeConst = Math.hypot(Window.getHEIGHT(),Window.getWIDTH())/20;
+    private final double attackRangeConst = Math.hypot(Main.getHEIGHT(),Main.getWIDTH())/20;
     private double x;
     private double y;
     private double speed;
