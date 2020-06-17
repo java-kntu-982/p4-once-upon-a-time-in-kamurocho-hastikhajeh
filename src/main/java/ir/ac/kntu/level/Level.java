@@ -1,7 +1,6 @@
 package ir.ac.kntu.level;
 
 import ir.ac.kntu.gameLogic.Game;
-import ir.ac.kntu.material.item.Material;
 import ir.ac.kntu.soldier.EnemySoldier;
 import javafx.scene.Group;
 
@@ -39,11 +38,6 @@ public abstract class Level {
                     game.getEnemySoldiers().forEach(en -> root.getChildren().add(en.getBar()));
                 }
             }
-        } else {
-            System.out.println("it's done");
-        }
-        if (itsDone(game)) {
-            System.out.println("it's done");
         }
     }
 

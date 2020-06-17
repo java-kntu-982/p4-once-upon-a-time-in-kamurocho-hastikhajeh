@@ -1,12 +1,10 @@
 package ir.ac.kntu.soldier;
 
 import ir.ac.kntu.scene.Window;
-import javafx.animation.FadeTransition;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,7 @@ public abstract class InternalSoldier extends Soldier {
     private Text text;
     private List<EnemySoldier> enemyInFieldOfView;
     private List<EnemySoldier> enemyInAttackRange;
+    private EnemySoldier target;
     private Double finalX;
     private Double finalY;
     private Integer lvl;
@@ -38,6 +37,7 @@ public abstract class InternalSoldier extends Soldier {
         text.setFill(Color.WHITE);
         enemyInFieldOfView = new ArrayList<>();
         enemyInAttackRange = new ArrayList<>();
+        target = null;
         finalX = null;
         finalY = null;
         setBar(new ProgressBar(1));
@@ -57,6 +57,10 @@ public abstract class InternalSoldier extends Soldier {
                 finalX = null;
                 finalY = null;
             }
+//            if (!enemyInAttackRange.contains(target)) {
+//                setxSpeed(0);
+//                setySpeed(0);
+//            }
             setxSpeed((x - getX()) / Math.hypot(x - getX(), y - getY()));
             setySpeed((y - getY()) / Math.hypot(x - getX(), y - getY()));
         }
@@ -100,7 +104,14 @@ public abstract class InternalSoldier extends Soldier {
                     }
                 }
             }
-            enemyInFieldOfView.removeIf(Soldier::isDead);
+            for (EnemySoldier enemy: enemyInFieldOfView) {
+                if (enemy.isDead()) {
+                    setxSpeed(0);
+                    setySpeed(0);
+                    enemyInFieldOfView.remove(enemy);
+                    break;
+                }
+            }
         }
     }
 
@@ -128,8 +139,9 @@ public abstract class InternalSoldier extends Soldier {
     public void goForEnemy() {
         if (!isDead()) {
             if (!enemyInFieldOfView.isEmpty()) {
-                EnemySoldier enemy = nearestEnemy(enemyInFieldOfView);
-                setXYSpeed(enemy.getX(), enemy.getY(), false);
+//                EnemySoldier enemy = nearestEnemy(enemyInFieldOfView);
+                target = nearestEnemy(enemyInFieldOfView);
+                setXYSpeed(target.getX(), target.getY(), false);
             }
         }
     }

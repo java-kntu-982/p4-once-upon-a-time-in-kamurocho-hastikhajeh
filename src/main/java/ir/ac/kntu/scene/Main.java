@@ -119,10 +119,7 @@ public class Main extends Application {
                 public void handle(long l) {
                     game.getInternalSoldiers().forEach(InternalSoldier::setXAndY);
                     game.getEnemySoldiers().forEach(EnemySoldier::setXAndY);
-//                    try {
-                        game.getEnemySoldiers().forEach(en -> en.setXYSpeed(game.getItems()));
-//                    } catch (NullPointerException ignored) {
-//                    }
+                    game.getEnemySoldiers().forEach(en -> en.setXYSpeed(game.getItems()));
                     game.getEnemySoldiers().forEach(EnemySoldier::move);
                     game.getInternalSoldiers().forEach(InternalSoldier::goForEnemy);
                     game.getInternalSoldiers().forEach(in -> in.makeEnemyInFieldOfViewList(game.getEnemySoldiers()));
