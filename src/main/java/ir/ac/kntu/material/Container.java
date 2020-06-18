@@ -1,4 +1,4 @@
-package ir.ac.kntu.material.item;
+package ir.ac.kntu.material;
 
 import ir.ac.kntu.material.item.Material;
 import javafx.scene.paint.Color;

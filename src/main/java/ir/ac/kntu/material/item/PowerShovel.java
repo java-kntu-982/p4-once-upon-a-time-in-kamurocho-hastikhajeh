@@ -9,5 +9,6 @@ public class PowerShovel extends Material {
         super(x, y, 11000,
                 new Rectangle(60, 110, Color.ORANGE),
                 new Text("PS"));
+        getShape().setArcWidth(10);
     }
 }
