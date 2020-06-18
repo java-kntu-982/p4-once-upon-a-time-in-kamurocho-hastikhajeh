@@ -3,9 +3,11 @@ package ir.ac.kntu.gameLogic;
 import ir.ac.kntu.block.Block;
 import ir.ac.kntu.level.Level;
 import ir.ac.kntu.material.Van;
-import ir.ac.kntu.material.item.Container;
+import ir.ac.kntu.material.Container;
 import ir.ac.kntu.material.item.Material;
-import ir.ac.kntu.material.item.Truck;
+import ir.ac.kntu.material.Truck;
+import ir.ac.kntu.material.item.PowerShovel;
+import ir.ac.kntu.material.item.SteelFramework;
 import ir.ac.kntu.soldier.EnemySoldier;
 import ir.ac.kntu.soldier.InternalSoldier;
 import ir.ac.kntu.soldier.internal.*;
@@ -42,11 +44,17 @@ public class Game {
         allInternalSoldiers.add(new RyujiGoda(500, 300));
         allInternalSoldiers.add(new ShintaroKazama(500,400));
         allInternalSoldiers.add(new SoheiDojima(450, 150));
-        allInternalSoldiers.add(new TaigaSaejima(450,450));
+        allInternalSoldiers.add(new TaigaSaejima(450,250));
+        allInternalSoldiers.add(new YukioTerada(450,350));
+        allInternalSoldiers.add(new TetsuTachibana(450,450));
+        allInternalSoldiers.add(new SotaroKomaki(650,150));
+        allInternalSoldiers.add(new KojiShindo(650,350));
         allItems = new ArrayList<>();
         allItems.add(new Van(800, 250));
         allItems.add(new Container(820, 150));
         allItems.add(new Truck(820, 250));
+        allItems.add(new PowerShovel(820, 250));
+        allItems.add(new SteelFramework(820, 250));
         start = false;
     }
 
@@ -62,7 +70,11 @@ public class Game {
         allInternalSoldiers.get(8).setXY(500, 300);
         allInternalSoldiers.get(9).setXY(500, 400);
         allInternalSoldiers.get(10).setXY(450, 150);
-        allInternalSoldiers.get(11).setXY(450, 450);
+        allInternalSoldiers.get(11).setXY(450, 250);
+        allInternalSoldiers.get(12).setXY(450, 350);
+        allInternalSoldiers.get(13).setXY(450, 450);
+        allInternalSoldiers.get(14).setXY(650, 150);
+        allInternalSoldiers.get(15).setXY(650, 350);
         allInternalSoldiers.forEach(in -> {
             in.setDead(false);
             in.getShape().setOpacity(1);
@@ -78,11 +90,6 @@ public class Game {
         });
         items = new ArrayList<>();
         start = false;
-    }
-
-    public void play(){
-//        internalSoldiers.add(new DaigoDojima(500,200));
-//        internalSoldiers.add(new DaigoDojima(500,300));
     }
 
     public List<InternalSoldier> getInternalSoldiers() {

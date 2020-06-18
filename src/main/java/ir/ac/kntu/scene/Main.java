@@ -289,7 +289,7 @@ public class Main extends Application {
         organizationPane.setCenter(chooseInternal);
         organizationPane.setRight(soldierInfo);
         organizationPane.setBottom(back);
-        chooseInternal.setPadding(new Insets(20, 10, 10, 20));
+        chooseInternal.setPadding(new Insets(100, 10, 10, 20));
         chooseInternal.setVgap(20);
         chooseInternal.setHgap(20);
 
@@ -325,62 +325,84 @@ public class Main extends Application {
         Button daigoDojima = new Button("DaigoDojima");
         daigoDojima.setStyle("-fx-pref-width: 120px;");
         daigoDojima.setOnAction(e -> putInOrGetOutOfStack(team,daigoDojima, game.getAllInternalSoldiers().get(0), info));
-        chooseInternal.add(daigoDojima,0,3);
+        chooseInternal.add(daigoDojima,0,0);
 
         Button futoshiShimano = new Button("FutoshiShimano");
         futoshiShimano.setStyle("-fx-pref-width: 120px;");
         futoshiShimano.setOnAction(e -> putInOrGetOutOfStack(team,futoshiShimano, game.getAllInternalSoldiers().get(1), info));
-        chooseInternal.add(futoshiShimano,1,3);
+        chooseInternal.add(futoshiShimano,1,0);
 
         Button goroMajima = new Button("GoroMajima");
         goroMajima.setStyle("-fx-pref-width: 120px;");
         goroMajima.setOnAction(e -> putInOrGetOutOfStack(team,goroMajima, game.getAllInternalSoldiers().get(2), info));
-        chooseInternal.add(goroMajima,2,3);
+        chooseInternal.add(goroMajima,2,0);
 
         Button jiroKawara = new Button("JiroKawara");
         jiroKawara.setStyle("-fx-pref-width: 120px;");
         jiroKawara.setOnAction(e -> putInOrGetOutOfStack(team,jiroKawara, game.getAllInternalSoldiers().get(3), info));
-        chooseInternal.add(jiroKawara,0,4);
+        chooseInternal.add(jiroKawara,3,0);
 
         Button kaoruSayama = new Button("KaoruSayama");
         kaoruSayama.setStyle("-fx-pref-width: 120px;");
         kaoruSayama.setOnAction(e -> putInOrGetOutOfStack(team,kaoruSayama, game.getAllInternalSoldiers().get(4), info));
-        chooseInternal.add(kaoruSayama,1,4);
+        chooseInternal.add(kaoruSayama,0,1);
 
         Button makotoDate = new Button("MakotoDate");
         makotoDate.setStyle("-fx-pref-width: 120px;");
         makotoDate.setOnAction(e -> putInOrGetOutOfStack(team,makotoDate, game.getAllInternalSoldiers().get(5), info));
-        chooseInternal.add(makotoDate,2,4);
+        chooseInternal.add(makotoDate,1,1);
 
         Button osamuKashiwagi = new Button("OsamuKashiwagi");
         osamuKashiwagi.setStyle("-fx-pref-width: 120px;");
         osamuKashiwagi.setOnAction(e -> putInOrGetOutOfStack(team,osamuKashiwagi, game.getAllInternalSoldiers().get(6), info));
-        chooseInternal.add(osamuKashiwagi,0,5);
+        chooseInternal.add(osamuKashiwagi,2,1);
 
         Button ryoTakashima = new Button("RyoTakashima");
         ryoTakashima.setStyle("-fx-pref-width: 120px;");
         ryoTakashima.setOnAction(e -> putInOrGetOutOfStack(team,ryoTakashima, game.getAllInternalSoldiers().get(7), info));
-        chooseInternal.add(ryoTakashima,1,5);
+        chooseInternal.add(ryoTakashima,3,1);
 
         Button ryujiGoda = new Button("RyujiGoda");
         ryujiGoda.setStyle("-fx-pref-width: 120px;");
         ryujiGoda.setOnAction(e -> putInOrGetOutOfStack(team,ryujiGoda, game.getAllInternalSoldiers().get(8), info));
-        chooseInternal.add(ryujiGoda,2,5);
+        chooseInternal.add(ryujiGoda,0,2);
 
         Button shintaroKazama = new Button("ShintaroKazama");
         shintaroKazama.setStyle("-fx-pref-width: 120px;");
         shintaroKazama.setOnAction(e -> putInOrGetOutOfStack(team,shintaroKazama, game.getAllInternalSoldiers().get(9), info));
-        chooseInternal.add(shintaroKazama,0,6);
+        chooseInternal.add(shintaroKazama,1,2);
 
         Button soheiDojima = new Button("SoheiDojima");
         soheiDojima.setStyle("-fx-pref-width: 120px;");
         soheiDojima.setOnAction(e -> putInOrGetOutOfStack(team,soheiDojima, game.getAllInternalSoldiers().get(10), info));
-        chooseInternal.add(soheiDojima,1,6);
+        chooseInternal.add(soheiDojima,2,2);
 
         Button taigaSaejima = new Button("TaigaSaejima");
         taigaSaejima.setStyle("-fx-pref-width: 120px;");
         taigaSaejima.setOnAction(e -> putInOrGetOutOfStack(team,taigaSaejima,game.getAllInternalSoldiers().get(11), info));
-        chooseInternal.add(taigaSaejima,2,6);
+        chooseInternal.add(taigaSaejima,3,2);
+
+        Button kojiShindo = new Button("KojiShindo");
+        kojiShindo.setStyle("-fx-pref-width: 120px;");
+        kojiShindo.setOnAction(e -> putInOrGetOutOfStack(team,kojiShindo,game.getAllInternalSoldiers().get(15), info));
+        chooseInternal.add(kojiShindo,0,3);
+
+        Button sotaroKomaki = new Button("SotaroKomaki");
+        sotaroKomaki.setStyle("-fx-pref-width: 120px;");
+        sotaroKomaki.setOnAction(e -> putInOrGetOutOfStack(team,sotaroKomaki,game.getAllInternalSoldiers().get(14), info));
+        chooseInternal.add(sotaroKomaki,1,3);
+
+        Button yukioTerada = new Button("YukioTerada");
+        yukioTerada.setStyle("-fx-pref-width: 120px;");
+        yukioTerada.setOnAction(e -> putInOrGetOutOfStack(team,yukioTerada,game.getAllInternalSoldiers().get(12), info));
+        chooseInternal.add(yukioTerada,2,3);
+
+        Button tetsuTachibana = new Button("TetsuTachibana");
+        tetsuTachibana.setStyle("-fx-pref-width: 120px;");
+        tetsuTachibana.setOnAction(e -> putInOrGetOutOfStack(team,tetsuTachibana,game.getAllInternalSoldiers().get(13), info));
+        chooseInternal.add(tetsuTachibana,3,3);
+
+
 
     }
 
@@ -431,11 +453,11 @@ public class Main extends Application {
         trainPane.setTop(moneyPane);
         trainPane.setRight(soldierInfo);
         trainPane.setCenter(soldierList);
-        soldierList.setPadding(new Insets(20, 10, 10, 20));
-        soldierList.setVgap(10);
+        soldierList.setPadding(new Insets(10, 10, 10, 20));
+        soldierList.setVgap(3);
         soldierList.setHgap(50);
 
-        moneyPane.setPadding(new Insets(30,30,30,30));
+        moneyPane.setPadding(new Insets(10,30,0,30));
         moneyTrain.setText(game.getMoney().toString());
         moneyPane.getChildren().add(moneyTrain);
         AnchorPane.setTopAnchor(moneyTrain, 10.0);
@@ -579,6 +601,46 @@ public class Main extends Application {
         lvlUpTS.setOnAction(e -> internalLvlUp(info, moneyTrain, tsMoney, error, 11));
         soldierList.add(lvlUpTS,1,11);
 
+        Button kojiShindo = new Button("KojiShindo");
+        kojiShindo.setStyle("-fx-pref-width: 120px;");
+        kojiShindo.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(15), info));
+        soldierList.add(kojiShindo,0,12);
+        Text kshMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(15).getLvl()*10));
+        soldierList.add(kshMoney,2,12);
+        Button lvlUpKSH = new Button("lvl up");
+        lvlUpKSH.setOnAction(e -> internalLvlUp(info, moneyTrain, kshMoney, error, 15));
+        soldierList.add(lvlUpKSH,1,12);
+
+        Button sotaroKomaki = new Button("SotaroKomaki");
+        sotaroKomaki.setStyle("-fx-pref-width: 120px;");
+        sotaroKomaki.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(14), info));
+        soldierList.add(sotaroKomaki,0,13);
+        Text stkMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(14).getLvl()*10));
+        soldierList.add(stkMoney,2,13);
+        Button lvlUpSTK = new Button("lvl up");
+        lvlUpSTK.setOnAction(e -> internalLvlUp(info, moneyTrain, stkMoney, error, 14));
+        soldierList.add(lvlUpSTK,1,13);
+
+        Button yukioTerada = new Button("YukioTerada");
+        yukioTerada.setStyle("-fx-pref-width: 120px;");
+        yukioTerada.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(12), info));
+        soldierList.add(yukioTerada,0,14);
+        Text ytMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(12).getLvl()*10));
+        soldierList.add(ytMoney,2,14);
+        Button lvlUpYT = new Button("lvl up");
+        lvlUpYT.setOnAction(e -> internalLvlUp(info, moneyTrain, ytMoney, error, 12));
+        soldierList.add(lvlUpYT,1,14);
+
+        Button tetsuTachibana = new Button("TetsuTachibana");
+        tetsuTachibana.setStyle("-fx-pref-width: 120px;");
+        tetsuTachibana.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(13), info));
+        soldierList.add(tetsuTachibana,0,15);
+        Text ttMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(13).getLvl()*10));
+        soldierList.add(ttMoney,2,15);
+        Button lvlUpTT = new Button("lvl up");
+        lvlUpTT.setOnAction(e -> internalLvlUp(info, moneyTrain, ttMoney, error, 13));
+        soldierList.add(lvlUpTT,1,15);
+
     }
 
     public void internalLvlUp(Text info, Text money, Text lvlUp, Text error, int index) {
@@ -675,7 +737,25 @@ public class Main extends Application {
         lvlUpT.setOnAction(e -> itemLvlUp(info, moneyFortify, tMoney, error, 2));
         itemList.add(lvlUpT, 1, 2);
 
+        Button powerShovel = new Button("power shovel");
+        powerShovel.setStyle("-fx-pref-width: 120px;");
+        powerShovel.setOnAction(e -> putItemInfo(game.getAllItems().get(3), info));
+        itemList.add(powerShovel, 0, 3);
+        Text pMoney = new Text(Integer.toString(-game.getAllItems().get(3).getLvl()*100));
+        itemList.add(pMoney, 2, 3);
+        Button lvlUpP = new Button("lvl up");
+        lvlUpP.setOnAction(e -> itemLvlUp(info, moneyFortify, pMoney, error, 3));
+        itemList.add(lvlUpP, 1, 3);
 
+        Button steelFramework = new Button("steel framework");
+        steelFramework.setStyle("-fx-pref-width: 120px;");
+        steelFramework.setOnAction(e -> putItemInfo(game.getAllItems().get(4), info));
+        itemList.add(steelFramework, 0, 4);
+        Text sMoney = new Text(Integer.toString(-game.getAllItems().get(4).getLvl()*100));
+        itemList.add(sMoney, 2, 4);
+        Button lvlUpS = new Button("lvl up");
+        lvlUpS.setOnAction(e -> itemLvlUp(info, moneyFortify, sMoney, error, 4));
+        itemList.add(lvlUpS, 1, 4);
 
     }
 
