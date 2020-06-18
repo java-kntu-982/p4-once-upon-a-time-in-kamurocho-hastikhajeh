@@ -2,10 +2,8 @@ package ir.ac.kntu.soldier;
 
 import ir.ac.kntu.gameLogic.Game;
 import ir.ac.kntu.material.item.Material;
-import javafx.animation.FadeTransition;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;

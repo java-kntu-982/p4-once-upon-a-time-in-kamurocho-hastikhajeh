@@ -5,7 +5,6 @@ import ir.ac. kntu.soldier.EnemySoldier;
 import ir.ac.kntu.soldier.enemy.BossLevel1;
 import ir.ac.kntu.soldier.enemy.GraySoldier;
 import ir.ac.kntu.soldier.enemy.RedSoldier;
-import ir.ac.kntu.soldier.enemy.YellowSoldier;
 
 import java.util.ArrayList;
 import java.util.List;

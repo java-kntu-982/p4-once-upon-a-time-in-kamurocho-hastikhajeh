@@ -1,7 +1,6 @@
 package ir.ac.kntu.level;
 
 import ir.ac.kntu.gameLogic.Game;
-import ir.ac.kntu.material.item.Material;
 import ir.ac.kntu.soldier.EnemySoldier;
 import ir.ac.kntu.soldier.enemy.*;
 

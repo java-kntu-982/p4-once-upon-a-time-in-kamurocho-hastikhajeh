@@ -286,6 +286,7 @@ public class Main extends Application {
             case 2:
                 info.setText("level two\n280 soldiers in 8 waves\nContainer + Van");
                 break;
+            default:
         }
         info.setFill(Color.WHITE);
         info.setFont(Font.font("Vardana",27));
@@ -337,88 +338,60 @@ public class Main extends Application {
             internalStack.add(team.get(i), i, 0);
         }
 
-        Button daigoDojima = new Button("DaigoDojima");
-        daigoDojima.setStyle("-fx-pref-width: 120px;");
-        daigoDojima.setOnAction(e -> putInOrGetOutOfStack(team,daigoDojima, game.getAllInternalSoldiers().get(0), info));
+        Button daigoDojima = organizationButton("DaigoDojima", team, info, 0);
         chooseInternal.add(daigoDojima,0,0);
 
-        Button futoshiShimano = new Button("FutoshiShimano");
-        futoshiShimano.setStyle("-fx-pref-width: 120px;");
-        futoshiShimano.setOnAction(e -> putInOrGetOutOfStack(team,futoshiShimano, game.getAllInternalSoldiers().get(1), info));
+        Button futoshiShimano = organizationButton("FutoshiShimano", team, info, 1);
         chooseInternal.add(futoshiShimano,1,0);
 
-        Button goroMajima = new Button("GoroMajima");
-        goroMajima.setStyle("-fx-pref-width: 120px;");
-        goroMajima.setOnAction(e -> putInOrGetOutOfStack(team,goroMajima, game.getAllInternalSoldiers().get(2), info));
+        Button goroMajima = organizationButton("GoroMajima", team, info, 2);
         chooseInternal.add(goroMajima,2,0);
 
-        Button jiroKawara = new Button("JiroKawara");
-        jiroKawara.setStyle("-fx-pref-width: 120px;");
-        jiroKawara.setOnAction(e -> putInOrGetOutOfStack(team,jiroKawara, game.getAllInternalSoldiers().get(3), info));
+        Button jiroKawara = organizationButton("JiroKawara", team, info, 3);
         chooseInternal.add(jiroKawara,3,0);
 
-        Button kaoruSayama = new Button("KaoruSayama");
-        kaoruSayama.setStyle("-fx-pref-width: 120px;");
-        kaoruSayama.setOnAction(e -> putInOrGetOutOfStack(team,kaoruSayama, game.getAllInternalSoldiers().get(4), info));
+        Button kaoruSayama = organizationButton("KaoruSayama", team, info, 4);
         chooseInternal.add(kaoruSayama,0,1);
 
-        Button makotoDate = new Button("MakotoDate");
-        makotoDate.setStyle("-fx-pref-width: 120px;");
-        makotoDate.setOnAction(e -> putInOrGetOutOfStack(team,makotoDate, game.getAllInternalSoldiers().get(5), info));
+        Button makotoDate = organizationButton("MakotoDate", team, info, 5);
         chooseInternal.add(makotoDate,1,1);
 
-        Button osamuKashiwagi = new Button("OsamuKashiwagi");
-        osamuKashiwagi.setStyle("-fx-pref-width: 120px;");
-        osamuKashiwagi.setOnAction(e -> putInOrGetOutOfStack(team,osamuKashiwagi, game.getAllInternalSoldiers().get(6), info));
+        Button osamuKashiwagi = organizationButton("OsamuKashiwagi", team, info, 6);
         chooseInternal.add(osamuKashiwagi,2,1);
 
-        Button ryoTakashima = new Button("RyoTakashima");
-        ryoTakashima.setStyle("-fx-pref-width: 120px;");
-        ryoTakashima.setOnAction(e -> putInOrGetOutOfStack(team,ryoTakashima, game.getAllInternalSoldiers().get(7), info));
+        Button ryoTakashima = organizationButton("RyoTakashima", team, info, 7);
         chooseInternal.add(ryoTakashima,3,1);
 
-        Button ryujiGoda = new Button("RyujiGoda");
-        ryujiGoda.setStyle("-fx-pref-width: 120px;");
-        ryujiGoda.setOnAction(e -> putInOrGetOutOfStack(team,ryujiGoda, game.getAllInternalSoldiers().get(8), info));
+        Button ryujiGoda = organizationButton("RyujiGoda", team, info, 8);
         chooseInternal.add(ryujiGoda,0,2);
 
-        Button shintaroKazama = new Button("ShintaroKazama");
-        shintaroKazama.setStyle("-fx-pref-width: 120px;");
-        shintaroKazama.setOnAction(e -> putInOrGetOutOfStack(team,shintaroKazama, game.getAllInternalSoldiers().get(9), info));
+        Button shintaroKazama = organizationButton("ShintaroKazama", team, info, 9);
         chooseInternal.add(shintaroKazama,1,2);
 
-        Button soheiDojima = new Button("SoheiDojima");
-        soheiDojima.setStyle("-fx-pref-width: 120px;");
-        soheiDojima.setOnAction(e -> putInOrGetOutOfStack(team,soheiDojima, game.getAllInternalSoldiers().get(10), info));
+        Button soheiDojima = organizationButton("SoheiDojima", team, info, 10);
         chooseInternal.add(soheiDojima,2,2);
 
-        Button taigaSaejima = new Button("TaigaSaejima");
-        taigaSaejima.setStyle("-fx-pref-width: 120px;");
-        taigaSaejima.setOnAction(e -> putInOrGetOutOfStack(team,taigaSaejima,game.getAllInternalSoldiers().get(11), info));
+        Button taigaSaejima = organizationButton("TaigaSaejima", team, info, 11);
         chooseInternal.add(taigaSaejima,3,2);
 
-        Button kojiShindo = new Button("KojiShindo");
-        kojiShindo.setStyle("-fx-pref-width: 120px;");
-        kojiShindo.setOnAction(e -> putInOrGetOutOfStack(team,kojiShindo,game.getAllInternalSoldiers().get(15), info));
+        Button kojiShindo = organizationButton("KojiShindo", team, info, 15);
         chooseInternal.add(kojiShindo,0,3);
 
-        Button sotaroKomaki = new Button("SotaroKomaki");
-        sotaroKomaki.setStyle("-fx-pref-width: 120px;");
-        sotaroKomaki.setOnAction(e -> putInOrGetOutOfStack(team,sotaroKomaki,game.getAllInternalSoldiers().get(14), info));
+        Button sotaroKomaki = organizationButton("SotaroKomaki", team, info, 14);
         chooseInternal.add(sotaroKomaki,1,3);
 
-        Button yukioTerada = new Button("YukioTerada");
-        yukioTerada.setStyle("-fx-pref-width: 120px;");
-        yukioTerada.setOnAction(e -> putInOrGetOutOfStack(team,yukioTerada,game.getAllInternalSoldiers().get(12), info));
+        Button yukioTerada = organizationButton("YukioTerada", team, info, 12);
         chooseInternal.add(yukioTerada,2,3);
 
-        Button tetsuTachibana = new Button("TetsuTachibana");
-        tetsuTachibana.setStyle("-fx-pref-width: 120px;");
-        tetsuTachibana.setOnAction(e -> putInOrGetOutOfStack(team,tetsuTachibana,game.getAllInternalSoldiers().get(13), info));
+        Button tetsuTachibana = organizationButton("TetsuTachibana", team, info, 13);
         chooseInternal.add(tetsuTachibana,3,3);
+    }
 
-
-
+    public Button organizationButton(String name, ArrayList<Button> team, Text info, int index) {
+        Button button = new Button(name);
+        button.setStyle("-fx-pref-width: 120px;");
+        button.setOnAction(e -> putInOrGetOutOfStack(team,button,game.getAllInternalSoldiers().get(index), info));
+        return button;
     }
 
     public void putInOrGetOutOfStack(ArrayList<Button> team, Button internalSoldier, InternalSoldier newSoldier, Text info) {
@@ -458,15 +431,7 @@ public class Main extends Application {
         }
     }
 
-    private void train(Stage stage) throws FileNotFoundException {
-        Image image = new Image(new FileInputStream("src/main/resources/Travel Japan Radiation  #JapanTravelCities.jpg"));
-        trainPane = new BorderPane();
-        trainPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        trainScene = new Scene(trainPane, 900, 600);
-        GridPane soldierList = new GridPane();
-        GridPane soldierInfo = new GridPane();
-        AnchorPane moneyPane = new AnchorPane();
-        GridPane back = new GridPane();
+    public void trainPane(Stage stage, GridPane back, AnchorPane moneyPane, GridPane soldierInfo, GridPane soldierList, Text info, Text error) {
         trainPane.setBottom(back);
         trainPane.setTop(moneyPane);
         trainPane.setRight(soldierInfo);
@@ -482,7 +447,6 @@ public class Main extends Application {
         AnchorPane.setTopAnchor(moneyTrain, 10.0);
         AnchorPane.setLeftAnchor(moneyTrain, 790.0);
         moneyTrain.setFont(Font.font("Vardana",18));
-        Text error = new Text();
         moneyPane.getChildren().add(error);
         AnchorPane.setTopAnchor(error, 10.0);
         AnchorPane.setLeftAnchor(error, 510.0);
@@ -497,185 +461,153 @@ public class Main extends Application {
         soldierInfo.setPadding(new Insets(150,100,50,0));
         soldierInfo.setMaxSize(350,350);
         soldierInfo.setMinSize(350,350);
-        Text info = new Text();
         soldierInfo.getChildren().add(info);
+    }
 
-        Button daigoDojima = new Button("daigoDojima");
-        daigoDojima.setStyle("-fx-pref-width: 120px;");
-        daigoDojima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(0), info));
+    private void train(Stage stage) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream("src/main/resources/Travel Japan Radiation  #JapanTravelCities.jpg"));
+        trainPane = new BorderPane();
+        trainPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        trainScene = new Scene(trainPane, 900, 600);
+        GridPane soldierList = new GridPane();
+        GridPane soldierInfo = new GridPane();
+        AnchorPane moneyPane = new AnchorPane();
+        GridPane back = new GridPane();
+        Text error = new Text();
+        Text info = new Text();
+
+        trainPane(stage, back, moneyPane, soldierInfo, soldierList, info, error);
+
+        Button daigoDojima = trainButton("daigoDojima", info, 0);
         soldierList.add(daigoDojima,0,0);
-        Text ddMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(0).getLvl()*10));
-        ddMoney.setFill(Color.WHITE);
+        Text ddMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(0).getLvl()*10));
         soldierList.add(ddMoney,2,0);
-        Button lvlUpDD = new Button("lvl up");
-        lvlUpDD.setOnAction(e -> internalLvlUp(info, moneyTrain, ddMoney, error, 0));
+        Button lvlUpDD = trainLvlUpButton(info, ddMoney, error, 0);
         soldierList.add(lvlUpDD,1,0);
 
-        Button futoshiShimano = new Button("futoshiShimano");
-        futoshiShimano.setStyle("-fx-pref-width: 120px;");
-        futoshiShimano.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(1), info));
+        Button futoshiShimano = trainButton("futoshiShimano", info, 1);
         soldierList.add(futoshiShimano,0,1);
-        Text fsMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(1).getLvl()*10));
-        fsMoney.setFill(Color.WHITE);
+        Text fsMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(1).getLvl()*10));
         soldierList.add(fsMoney,2,1);
-        Button lvlUpFS = new Button("lvl up");
-        lvlUpFS.setOnAction(e -> internalLvlUp(info, moneyTrain, fsMoney, error, 1));
+        Button lvlUpFS = trainLvlUpButton(info, fsMoney, error, 1);
         soldierList.add(lvlUpFS,1,1);
 
-        Button goroMajima = new Button("goroMajima");
-        goroMajima.setStyle("-fx-pref-width: 120px;");
-        goroMajima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(2), info));
+        Button goroMajima = trainButton("goroMajima", info, 2);
         soldierList.add(goroMajima,0,2);
-        Text gmMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(2).getLvl()*10));
-        gmMoney.setFill(Color.WHITE);
+        Text gmMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(2).getLvl()*10));
         soldierList.add(gmMoney,2,2);
-        Button lvlUpGM = new Button("lvl up");
-        lvlUpGM.setOnAction(e -> internalLvlUp(info, moneyTrain, gmMoney, error, 2));
+        Button lvlUpGM = trainLvlUpButton(info, gmMoney, error, 2);
         soldierList.add(lvlUpGM,1,2);
 
-        Button jiroKawara = new Button("jiroKawara");
-        jiroKawara.setStyle("-fx-pref-width: 120px;");
-        jiroKawara.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(3), info));
+        Button jiroKawara = trainButton("jiroKawara", info, 3);
         soldierList.add(jiroKawara,0,3);
-        Text jkMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(3).getLvl()*10));
-        jkMoney.setFill(Color.WHITE);
+        Text jkMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(3).getLvl()*10));
         soldierList.add(jkMoney,2,3);
-        Button lvlUpJK = new Button("lvl up");
-        lvlUpJK.setOnAction(e -> internalLvlUp(info, moneyTrain, jkMoney, error, 3));
+        Button lvlUpJK = trainLvlUpButton(info, jkMoney, error, 3);
         soldierList.add(lvlUpJK,1,3);
 
-        Button kaoruSayama = new Button("kaoruSayama");
-        kaoruSayama.setStyle("-fx-pref-width: 120px;");
-        kaoruSayama.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(4), info));
+        Button kaoruSayama = trainButton("kaoruSayama", info, 4);
         soldierList.add(kaoruSayama,0,4);
-        Text ksMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(4).getLvl()*10));
-        ksMoney.setFill(Color.WHITE);
+        Text ksMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(4).getLvl()*10));
         soldierList.add(ksMoney,2,4);
-        Button lvlUpKS = new Button("lvl up");
-        lvlUpKS.setOnAction(e -> internalLvlUp(info, moneyTrain, ksMoney, error, 4));
+        Button lvlUpKS = trainLvlUpButton(info, ksMoney, error, 4);
         soldierList.add(lvlUpKS,1,4);
 
-        Button makotoDate = new Button("makotoDate");
-        makotoDate.setStyle("-fx-pref-width: 120px;");
-        makotoDate.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(5), info));
+        Button makotoDate = trainButton("makotoDate", info, 5);
         soldierList.add(makotoDate,0,5);
-        Text mdMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(5).getLvl()*10));
-        mdMoney.setFill(Color.WHITE);
+        Text mdMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(5).getLvl()*10));
         soldierList.add(mdMoney,2,5);
-        Button lvlUpMD = new Button("lvl up");
-        lvlUpMD.setOnAction(e -> internalLvlUp(info, moneyTrain, mdMoney, error, 5));
+        Button lvlUpMD = trainLvlUpButton(info, mdMoney, error, 5);
         soldierList.add(lvlUpMD,1,5);
 
-        Button osamuKashiwagi = new Button("osamuKashiwagi");
-        osamuKashiwagi.setStyle("-fx-pref-width: 120px;");
-        osamuKashiwagi.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(6), info));
+        Button osamuKashiwagi = trainButton("osamuKashiwagi", info, 6);
         soldierList.add(osamuKashiwagi,0,6);
-        Text okMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(6).getLvl()*10));
-        okMoney.setFill(Color.WHITE);
+        Text okMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(6).getLvl()*10));
         soldierList.add(okMoney,2,6);
-        Button lvlUpOK = new Button("lvl up");
-        lvlUpOK.setOnAction(e -> internalLvlUp(info, moneyTrain, okMoney, error, 6));
+        Button lvlUpOK = trainLvlUpButton(info, okMoney, error, 6);
         soldierList.add(lvlUpOK,1,6);
 
-        Button ryoTakashima = new Button("ryoTakashima");
-        ryoTakashima.setStyle("-fx-pref-width: 120px;");
-        ryoTakashima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(7), info));
+        Button ryoTakashima = trainButton("ryoTakashima", info, 7);
         soldierList.add(ryoTakashima,0,7);
-        Text rtMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(7).getLvl()*10));
-        rtMoney.setFill(Color.WHITE);
+        Text rtMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(7).getLvl()*10));
         soldierList.add(rtMoney,2,7);
-        Button lvlUpRT = new Button("lvl up");
-        lvlUpRT.setOnAction(e -> internalLvlUp(info, moneyTrain, rtMoney, error, 7));
+        Button lvlUpRT = trainLvlUpButton(info, rtMoney, error, 7);
         soldierList.add(lvlUpRT,1,7);
 
-        Button ryujiGoda = new Button("ryujiGoda");
-        ryujiGoda.setStyle("-fx-pref-width: 120px;");
-        ryujiGoda.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(8), info));
+        Button ryujiGoda = trainButton("ryujiGoda", info, 8);
         soldierList.add(ryujiGoda,0,8);
-        Text rgMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(8).getLvl()*10));
-        rgMoney.setFill(Color.WHITE);
+        Text rgMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(8).getLvl()*10));
         soldierList.add(rgMoney,2,8);
-        Button lvlUpRG = new Button("lvl up");
-        lvlUpRG.setOnAction(e -> internalLvlUp(info, moneyTrain, rgMoney, error, 8));
+        Button lvlUpRG = trainLvlUpButton(info, rgMoney, error, 8);
         soldierList.add(lvlUpRG,1,8);
 
-        Button shintaroKazama = new Button("shintaroKazama");
-        shintaroKazama.setStyle("-fx-pref-width: 120px;");
-        shintaroKazama.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(9), info));
+        Button shintaroKazama = trainButton("shintaroKazama", info, 9);
         soldierList.add(shintaroKazama,0,9);
-        Text skMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(9).getLvl()*10));
-        skMoney.setFill(Color.WHITE);
+        Text skMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(9).getLvl()*10));
         soldierList.add(skMoney,2,9);
-        Button lvlUpSK = new Button("lvl up");
-        lvlUpSK.setOnAction(e -> internalLvlUp(info, moneyTrain, skMoney, error, 9));
+        Button lvlUpSK = trainLvlUpButton(info, skMoney, error, 9);
         soldierList.add(lvlUpSK,1,9);
 
-        Button soheiDojima = new Button("soheiDojima");
-        soheiDojima.setStyle("-fx-pref-width: 120px;");
-        soheiDojima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(10), info));
+        Button soheiDojima = trainButton("soheiDojima", info, 10);
         soldierList.add(soheiDojima,0,10);
-        Text sdMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(10).getLvl()*10));
-        sdMoney.setFill(Color.WHITE);
+        Text sdMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(10).getLvl()*10));
         soldierList.add(sdMoney,2,10);
-        Button lvlUpSD = new Button("lvl up");
-        lvlUpSD.setOnAction(e -> internalLvlUp(info, moneyTrain, sdMoney, error, 10));
+        Button lvlUpSD = trainLvlUpButton(info, sdMoney, error, 10);
         soldierList.add(lvlUpSD,1,10);
 
-        Button taigaSaejima = new Button("taigaSaejima");
-        taigaSaejima.setStyle("-fx-pref-width: 120px;");
-        taigaSaejima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(11), info));
+        Button taigaSaejima = trainButton("taigaSaejima", info, 11);
         soldierList.add(taigaSaejima,0,11);
-        Text tsMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(11).getLvl()*10));
-        tsMoney.setFill(Color.WHITE);
+        Text tsMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(11).getLvl()*10));
         soldierList.add(tsMoney,2,11);
-        Button lvlUpTS = new Button("lvl up");
-        lvlUpTS.setOnAction(e -> internalLvlUp(info, moneyTrain, tsMoney, error, 11));
+        Button lvlUpTS = trainLvlUpButton(info, tsMoney, error, 11);
         soldierList.add(lvlUpTS,1,11);
 
-        Button kojiShindo = new Button("KojiShindo");
-        kojiShindo.setStyle("-fx-pref-width: 120px;");
-        kojiShindo.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(15), info));
+        Button kojiShindo = trainButton("KojiShindo", info, 15);
         soldierList.add(kojiShindo,0,12);
-        Text kshMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(15).getLvl()*10));
-        kshMoney.setFill(Color.WHITE);
+        Text kshMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(15).getLvl()*10));
         soldierList.add(kshMoney,2,12);
-        Button lvlUpKSH = new Button("lvl up");
-        lvlUpKSH.setOnAction(e -> internalLvlUp(info, moneyTrain, kshMoney, error, 15));
+        Button lvlUpKSH = trainLvlUpButton(info, kshMoney, error, 15);
         soldierList.add(lvlUpKSH,1,12);
 
-        Button sotaroKomaki = new Button("SotaroKomaki");
-        sotaroKomaki.setStyle("-fx-pref-width: 120px;");
-        sotaroKomaki.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(14), info));
+        Button sotaroKomaki = trainButton("SotaroKomaki", info, 14);
         soldierList.add(sotaroKomaki,0,13);
-        Text stkMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(14).getLvl()*10));
-        stkMoney.setFill(Color.WHITE);
+        Text stkMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(14).getLvl()*10));
         soldierList.add(stkMoney,2,13);
-        Button lvlUpSTK = new Button("lvl up");
-        lvlUpSTK.setOnAction(e -> internalLvlUp(info, moneyTrain, stkMoney, error, 14));
+        Button lvlUpSTK = trainLvlUpButton(info, stkMoney, error, 14);
         soldierList.add(lvlUpSTK,1,13);
 
-        Button yukioTerada = new Button("YukioTerada");
-        yukioTerada.setStyle("-fx-pref-width: 120px;");
-        yukioTerada.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(12), info));
+        Button yukioTerada = trainButton("YukioTerada", info, 12);
         soldierList.add(yukioTerada,0,14);
-        Text ytMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(12).getLvl()*10));
-        ytMoney.setFill(Color.WHITE);
+        Text ytMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(12).getLvl()*10));
         soldierList.add(ytMoney,2,14);
-        Button lvlUpYT = new Button("lvl up");
-        lvlUpYT.setOnAction(e -> internalLvlUp(info, moneyTrain, ytMoney, error, 12));
+        Button lvlUpYT = trainLvlUpButton(info, ytMoney, error, 12);
         soldierList.add(lvlUpYT,1,14);
 
-        Button tetsuTachibana = new Button("TetsuTachibana");
-        tetsuTachibana.setStyle("-fx-pref-width: 120px;");
-        tetsuTachibana.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(13), info));
+        Button tetsuTachibana = trainButton("TetsuTachibana", info, 13);
         soldierList.add(tetsuTachibana,0,15);
-        Text ttMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(13).getLvl()*10));
-        ttMoney.setFill(Color.WHITE);
+        Text ttMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(13).getLvl()*10));
         soldierList.add(ttMoney,2,15);
-        Button lvlUpTT = new Button("lvl up");
-        lvlUpTT.setOnAction(e -> internalLvlUp(info, moneyTrain, ttMoney, error, 13));
+        Button lvlUpTT = trainLvlUpButton(info, ttMoney, error, 13);
         soldierList.add(lvlUpTT,1,15);
+    }
 
+    public Button trainButton(String name, Text info, int index) {
+        Button button = new Button(name);
+        button.setStyle("-fx-pref-width: 120px;");
+        button.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(index), info));
+        return button;
+    }
+
+    public Text trainLvlUpText(String amount) {
+        Text text = new Text(amount);
+        text.setFill(Color.WHITE);
+        return text;
+    }
+
+    public Button trainLvlUpButton(Text info, Text money, Text error, int index) {
+        Button button = new Button("lvl up");
+        button.setOnAction(e -> internalLvlUp(info, moneyTrain, money, error, index));
+        return button;
     }
 
     public void internalLvlUp(Text info, Text money, Text lvlUp, Text error, int index) {
