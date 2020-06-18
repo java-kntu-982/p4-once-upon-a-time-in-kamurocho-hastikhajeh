@@ -1,7 +1,6 @@
 package ir.ac.kntu.scene;
 
 import ir.ac.kntu.gameLogic.Game;
-import ir.ac.kntu.level.Level;
 import ir.ac.kntu.level.Level1;
 import ir.ac.kntu.level.Level2;
 import ir.ac.kntu.material.item.Material;
@@ -17,19 +16,18 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Main extends Application {
     private static final int HEIGHT = 600, WIDTH = 900;
@@ -43,9 +41,6 @@ public class Main extends Application {
     private Group gamePane;
     private Group resultPane;
 
-    private Text moneyTrain = new Text();
-    private Text moneyFortify = new Text();
-
     private Scene startMenuScene;
     private Scene missionsScene;
     private Scene organizationScene;
@@ -53,6 +48,11 @@ public class Main extends Application {
     private Scene fortifyHQScene;
     private Scene gameScene;
     private Scene resultScene;
+
+    private Text moneyTrain = new Text();
+    private Text moneyFortify = new Text();
+    private Media music = new Media(new File("src/main/resources/522110__setuniman__cheeky-1t41b.wav").toURI().toString());
+    private MediaPlayer mediaPlayer = new MediaPlayer(music);
 
     public static int getHEIGHT() {
         return HEIGHT;
@@ -75,6 +75,9 @@ public class Main extends Application {
 
     private void initialSetting(Stage stage) {
         game = new Game(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 1000d);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
         try {
             startMenu(stage);
             missions(stage);
@@ -472,8 +475,8 @@ public class Main extends Application {
         soldierList.setVgap(3);
         soldierList.setHgap(50);
 
-        moneyPane.setPadding(new Insets(10,30,0,30));
-        moneyTrain.setText(game.getMoney().toString());
+        moneyPane.setPadding(new Insets(10,50,0,30));
+        moneyTrain.setText(String.format("%.2f",game.getMoney()));
         moneyTrain.setFill(Color.WHITE);
         moneyPane.getChildren().add(moneyTrain);
         AnchorPane.setTopAnchor(moneyTrain, 10.0);
@@ -491,9 +494,9 @@ public class Main extends Application {
         backButton.setOnAction(e -> stage.setScene(startMenuScene));
         back.getChildren().add(backButton);
 
-        soldierInfo.setPadding(new Insets(100,100,50,0));
-        soldierInfo.setMaxSize(300,300);
-        soldierInfo.setMinSize(300,300);
+        soldierInfo.setPadding(new Insets(150,100,50,0));
+        soldierInfo.setMaxSize(350,350);
+        soldierInfo.setMinSize(350,350);
         Text info = new Text();
         soldierInfo.getChildren().add(info);
 
@@ -683,7 +686,7 @@ public class Main extends Application {
             fade.setOnFinished(e -> error.setText(""));
             fade.play();
         } else {
-            money.setText(Double.toString(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10));
+            money.setText(String.format("%.2f",game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10));
             moneyFortify.setText(Double.toString(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10));
             game.setMoney(game.getMoney() - game.getAllInternalSoldiers().get(index).getLvl()*10);
             game.getAllInternalSoldiers().get(index).lvlUp();
@@ -810,7 +813,7 @@ public class Main extends Application {
             fade.setOnFinished(e -> error.setText(""));
             fade.play();
         } else {
-            money.setText(Double.toString(game.getMoney() - game.getAllItems().get(index).getLvl()*100));
+            money.setText(String.format("%.2f",game.getMoney() - game.getAllItems().get(index).getLvl()*100));
             moneyTrain.setText(Double.toString(game.getMoney() - game.getAllItems().get(index).getLvl()*100));
             game.setMoney(game.getMoney() - game.getAllItems().get(index).getLvl()*100);
             game.getAllItems().get(index).lvlUp();
