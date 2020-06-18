@@ -14,15 +14,17 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,41 +69,46 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         initialSetting(stage);
+        stage.setTitle("once upon a time in kamurocho:)");
         stage.show();
     }
 
     private void initialSetting(Stage stage) {
         game = new Game(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 1000d);
-        startMenu(stage);
-        missions(stage);
-        organization(stage);
-        train(stage);
-        fortifyHQ(stage);
+        try {
+            startMenu(stage);
+            missions(stage);
+            organization(stage);
+            train(stage);
+            fortifyHQ(stage);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         stage.setScene(startMenuScene);
     }
 
     public void gameControl(Scene scene) {
+        final InternalSoldier[] internalSoldier = new InternalSoldier[1];
+        final boolean[] b = {false};
         for (InternalSoldier in: game.getInternalSoldiers()) {
             in.getShape().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                internalSoldier = in;
-                b = true;
+                internalSoldier[0] = in;
+                b[0] = true;
             });
             in.getText().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                internalSoldier = in;
-                b = true;
+                internalSoldier[0] = in;
+                b[0] = true;
             });
         }
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
-            if (b) {
-                internalSoldier.setXYSpeed(e.getX(),e.getY(), true);
-                b = false;
+            if (b[0]) {
+                internalSoldier[0].setXYSpeed(e.getX(),e.getY(), true);
+                b[0] = false;
                 e.consume();
             }
         });
     }
 
-    InternalSoldier internalSoldier;
-    boolean b = false;
     public void game(Stage stage) {
         gamePane = new Group();
         gameScene = new Scene(gamePane, 900, 600);
@@ -174,10 +181,12 @@ public class Main extends Application {
         resultPane.getChildren().addAll(result, earned, back);
     }
 
-    private void startMenu(Stage stage) {
+    private void startMenu(Stage stage) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream("src/main/resources/Shinjuku Omoide-Yokocho.jpg"));
         startMenuPane = new GridPane();
+        startMenuPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         startMenuScene = new Scene(startMenuPane, 900, 600);
-        startMenuPane.setPadding(new Insets(20, 10, 10, 20));
+        startMenuPane.setPadding(new Insets(40, 10, 10, 50));
         startMenuPane.setVgap(5);
         startMenuPane.setHgap(5);
 
@@ -201,11 +210,12 @@ public class Main extends Application {
         fortifyHQ.setOnAction(e -> stage.setScene(fortifyHQScene));
         startMenuPane.add(fortifyHQ,0,3);
 
-        startMenuPane.setStyle("-fx-background-color: #14227d;");
     }
 
-    private void missions(Stage stage) {
+    private void missions(Stage stage) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream("src/main/resources/Black Rain Ikebukuro 池袋.jpg"));
         missionsPane = new BorderPane();
+        missionsPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         missionsScene = new Scene(missionsPane, 900, 600);
         GridPane levels = new GridPane();
         GridPane levelInfo = new GridPane();
@@ -213,7 +223,7 @@ public class Main extends Application {
         missionsPane.setBottom(back);
         missionsPane.setRight(levelInfo);
         missionsPane.setCenter(levels);
-        levels.setPadding(new Insets(50,10,10,20));
+        levels.setPadding(new Insets(125,10,10,50));
         levels.setVgap(20);
         levels.setHgap(40);
 
@@ -223,7 +233,7 @@ public class Main extends Application {
         backButton.setOnAction(e -> stage.setScene(startMenuScene));
         back.getChildren().add(backButton);
 
-        levelInfo.setPadding(new Insets(120,100,50,50));
+        levelInfo.setPadding(new Insets(125,100,50,50));
         levelInfo.setMaxSize(400,400);
         levelInfo.setMinSize(400,400);
         Text info = new Text();
@@ -274,12 +284,14 @@ public class Main extends Application {
                 info.setText("level two\n280 soldiers in 8 waves\nContainer + Van");
                 break;
         }
+        info.setFill(Color.WHITE);
         info.setFont(Font.font("Vardana",27));
     }
 
-    private void organization(Stage stage) {
+    private void organization(Stage stage) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream("src/main/resources/Travel Japan Radiation  #JapanTravelCities.jpg"));
         organizationPane = new BorderPane();
-        organizationPane.setStyle("-fx-background-color: #88cef0;");
+        organizationPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         organizationScene = new Scene(organizationPane, 900, 600);
         GridPane chooseInternal = new GridPane();
         GridPane internalStack = new GridPane();
@@ -409,6 +421,7 @@ public class Main extends Application {
     public void putInOrGetOutOfStack(ArrayList<Button> team, Button internalSoldier, InternalSoldier newSoldier, Text info) {
         info.setText(internalSoldier.getText()+"\nHealth: "+newSoldier.getHealth().toString()+"\nattack: "+newSoldier.getAttack().toString()+"\nlevel: "+newSoldier.getLvl());
         info.setFont(Font.font("Vardana",30));
+        info.setFill(Color.WHITE);
 
         boolean flag = true;
         for (InternalSoldier internal: game.getInternalSoldiers()) {
@@ -442,8 +455,10 @@ public class Main extends Application {
         }
     }
 
-    private void train(Stage stage) {
+    private void train(Stage stage) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream("src/main/resources/Travel Japan Radiation  #JapanTravelCities.jpg"));
         trainPane = new BorderPane();
+        trainPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         trainScene = new Scene(trainPane, 900, 600);
         GridPane soldierList = new GridPane();
         GridPane soldierInfo = new GridPane();
@@ -459,6 +474,7 @@ public class Main extends Application {
 
         moneyPane.setPadding(new Insets(10,30,0,30));
         moneyTrain.setText(game.getMoney().toString());
+        moneyTrain.setFill(Color.WHITE);
         moneyPane.getChildren().add(moneyTrain);
         AnchorPane.setTopAnchor(moneyTrain, 10.0);
         AnchorPane.setLeftAnchor(moneyTrain, 790.0);
@@ -486,6 +502,7 @@ public class Main extends Application {
         daigoDojima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(0), info));
         soldierList.add(daigoDojima,0,0);
         Text ddMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(0).getLvl()*10));
+        ddMoney.setFill(Color.WHITE);
         soldierList.add(ddMoney,2,0);
         Button lvlUpDD = new Button("lvl up");
         lvlUpDD.setOnAction(e -> internalLvlUp(info, moneyTrain, ddMoney, error, 0));
@@ -496,6 +513,7 @@ public class Main extends Application {
         futoshiShimano.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(1), info));
         soldierList.add(futoshiShimano,0,1);
         Text fsMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(1).getLvl()*10));
+        fsMoney.setFill(Color.WHITE);
         soldierList.add(fsMoney,2,1);
         Button lvlUpFS = new Button("lvl up");
         lvlUpFS.setOnAction(e -> internalLvlUp(info, moneyTrain, fsMoney, error, 1));
@@ -506,6 +524,7 @@ public class Main extends Application {
         goroMajima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(2), info));
         soldierList.add(goroMajima,0,2);
         Text gmMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(2).getLvl()*10));
+        gmMoney.setFill(Color.WHITE);
         soldierList.add(gmMoney,2,2);
         Button lvlUpGM = new Button("lvl up");
         lvlUpGM.setOnAction(e -> internalLvlUp(info, moneyTrain, gmMoney, error, 2));
@@ -516,6 +535,7 @@ public class Main extends Application {
         jiroKawara.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(3), info));
         soldierList.add(jiroKawara,0,3);
         Text jkMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(3).getLvl()*10));
+        jkMoney.setFill(Color.WHITE);
         soldierList.add(jkMoney,2,3);
         Button lvlUpJK = new Button("lvl up");
         lvlUpJK.setOnAction(e -> internalLvlUp(info, moneyTrain, jkMoney, error, 3));
@@ -526,6 +546,7 @@ public class Main extends Application {
         kaoruSayama.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(4), info));
         soldierList.add(kaoruSayama,0,4);
         Text ksMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(4).getLvl()*10));
+        ksMoney.setFill(Color.WHITE);
         soldierList.add(ksMoney,2,4);
         Button lvlUpKS = new Button("lvl up");
         lvlUpKS.setOnAction(e -> internalLvlUp(info, moneyTrain, ksMoney, error, 4));
@@ -536,6 +557,7 @@ public class Main extends Application {
         makotoDate.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(5), info));
         soldierList.add(makotoDate,0,5);
         Text mdMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(5).getLvl()*10));
+        mdMoney.setFill(Color.WHITE);
         soldierList.add(mdMoney,2,5);
         Button lvlUpMD = new Button("lvl up");
         lvlUpMD.setOnAction(e -> internalLvlUp(info, moneyTrain, mdMoney, error, 5));
@@ -546,6 +568,7 @@ public class Main extends Application {
         osamuKashiwagi.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(6), info));
         soldierList.add(osamuKashiwagi,0,6);
         Text okMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(6).getLvl()*10));
+        okMoney.setFill(Color.WHITE);
         soldierList.add(okMoney,2,6);
         Button lvlUpOK = new Button("lvl up");
         lvlUpOK.setOnAction(e -> internalLvlUp(info, moneyTrain, okMoney, error, 6));
@@ -556,6 +579,7 @@ public class Main extends Application {
         ryoTakashima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(7), info));
         soldierList.add(ryoTakashima,0,7);
         Text rtMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(7).getLvl()*10));
+        rtMoney.setFill(Color.WHITE);
         soldierList.add(rtMoney,2,7);
         Button lvlUpRT = new Button("lvl up");
         lvlUpRT.setOnAction(e -> internalLvlUp(info, moneyTrain, rtMoney, error, 7));
@@ -566,6 +590,7 @@ public class Main extends Application {
         ryujiGoda.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(8), info));
         soldierList.add(ryujiGoda,0,8);
         Text rgMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(8).getLvl()*10));
+        rgMoney.setFill(Color.WHITE);
         soldierList.add(rgMoney,2,8);
         Button lvlUpRG = new Button("lvl up");
         lvlUpRG.setOnAction(e -> internalLvlUp(info, moneyTrain, rgMoney, error, 8));
@@ -576,6 +601,7 @@ public class Main extends Application {
         shintaroKazama.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(9), info));
         soldierList.add(shintaroKazama,0,9);
         Text skMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(9).getLvl()*10));
+        skMoney.setFill(Color.WHITE);
         soldierList.add(skMoney,2,9);
         Button lvlUpSK = new Button("lvl up");
         lvlUpSK.setOnAction(e -> internalLvlUp(info, moneyTrain, skMoney, error, 9));
@@ -586,6 +612,7 @@ public class Main extends Application {
         soheiDojima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(10), info));
         soldierList.add(soheiDojima,0,10);
         Text sdMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(10).getLvl()*10));
+        sdMoney.setFill(Color.WHITE);
         soldierList.add(sdMoney,2,10);
         Button lvlUpSD = new Button("lvl up");
         lvlUpSD.setOnAction(e -> internalLvlUp(info, moneyTrain, sdMoney, error, 10));
@@ -596,6 +623,7 @@ public class Main extends Application {
         taigaSaejima.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(11), info));
         soldierList.add(taigaSaejima,0,11);
         Text tsMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(11).getLvl()*10));
+        tsMoney.setFill(Color.WHITE);
         soldierList.add(tsMoney,2,11);
         Button lvlUpTS = new Button("lvl up");
         lvlUpTS.setOnAction(e -> internalLvlUp(info, moneyTrain, tsMoney, error, 11));
@@ -606,6 +634,7 @@ public class Main extends Application {
         kojiShindo.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(15), info));
         soldierList.add(kojiShindo,0,12);
         Text kshMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(15).getLvl()*10));
+        kshMoney.setFill(Color.WHITE);
         soldierList.add(kshMoney,2,12);
         Button lvlUpKSH = new Button("lvl up");
         lvlUpKSH.setOnAction(e -> internalLvlUp(info, moneyTrain, kshMoney, error, 15));
@@ -616,6 +645,7 @@ public class Main extends Application {
         sotaroKomaki.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(14), info));
         soldierList.add(sotaroKomaki,0,13);
         Text stkMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(14).getLvl()*10));
+        stkMoney.setFill(Color.WHITE);
         soldierList.add(stkMoney,2,13);
         Button lvlUpSTK = new Button("lvl up");
         lvlUpSTK.setOnAction(e -> internalLvlUp(info, moneyTrain, stkMoney, error, 14));
@@ -626,6 +656,7 @@ public class Main extends Application {
         yukioTerada.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(12), info));
         soldierList.add(yukioTerada,0,14);
         Text ytMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(12).getLvl()*10));
+        ytMoney.setFill(Color.WHITE);
         soldierList.add(ytMoney,2,14);
         Button lvlUpYT = new Button("lvl up");
         lvlUpYT.setOnAction(e -> internalLvlUp(info, moneyTrain, ytMoney, error, 12));
@@ -636,6 +667,7 @@ public class Main extends Application {
         tetsuTachibana.setOnAction(e -> putSoldierInfo(game.getAllInternalSoldiers().get(13), info));
         soldierList.add(tetsuTachibana,0,15);
         Text ttMoney = new Text(Integer.toString(-game.getAllInternalSoldiers().get(13).getLvl()*10));
+        ttMoney.setFill(Color.WHITE);
         soldierList.add(ttMoney,2,15);
         Button lvlUpTT = new Button("lvl up");
         lvlUpTT.setOnAction(e -> internalLvlUp(info, moneyTrain, ttMoney, error, 13));
@@ -646,6 +678,7 @@ public class Main extends Application {
     public void internalLvlUp(Text info, Text money, Text lvlUp, Text error, int index) {
         if (game.getMoney() < game.getAllInternalSoldiers().get(index).getLvl()*10) {
             error.setText("you don't have enough money -> ");
+            error.setFill(Color.WHITE);
             FadeTransition fade = new FadeTransition(Duration.millis(3000), error);
             fade.setOnFinished(e -> error.setText(""));
             fade.play();
@@ -666,10 +699,13 @@ public class Main extends Application {
                 "\nattack: "+internal.getAttack().toString()+" -> "+(int) attack+
                 "\nlevel: "+internal.getLvl() + " -> " + (internal.getLvl()+1));
         info.setFont(Font.font("Vardana",27));
+        info.setFill(Color.WHITE);
     }
 
-    private void fortifyHQ(Stage stage) {
+    private void fortifyHQ(Stage stage) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream("src/main/resources/Trendy photography night light rain 70+ ideas.jpg"));
         fortifyHQPane = new BorderPane();
+        fortifyHQPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         fortifyHQScene = new Scene(fortifyHQPane, 900, 600);
         GridPane itemList = new GridPane();
         GridPane itemInfo = new GridPane();
@@ -679,7 +715,7 @@ public class Main extends Application {
         fortifyHQPane.setCenter(itemList);
         fortifyHQPane.setRight(itemInfo);
         fortifyHQPane.setBottom(back);
-        itemList.setPadding(new Insets(20, 10, 10, 20));
+        itemList.setPadding(new Insets(50, 10, 10, 20));
         itemList.setVgap(10);
         itemList.setHgap(50);
 
@@ -688,11 +724,13 @@ public class Main extends Application {
         moneyPane.getChildren().add(moneyFortify);
         AnchorPane.setTopAnchor(moneyFortify, 10.0);
         AnchorPane.setLeftAnchor(moneyFortify, 790.0);
+        moneyFortify.setFill(Color.WHITE);
         moneyFortify.setFont(Font.font("Vardana",18));
         Text error = new Text();
         moneyPane.getChildren().add(error);
         AnchorPane.setTopAnchor(error, 10.0);
         AnchorPane.setLeftAnchor(error, 510.0);
+        error.setFill(Color.WHITE);
         error.setFont(Font.font("Vardana",18));
 
         back.setPadding(new Insets(30,30,30,30));
@@ -701,10 +739,11 @@ public class Main extends Application {
         backButton.setOnAction(e -> stage.setScene(startMenuScene));
         back.getChildren().add(backButton);
 
-        itemInfo.setPadding(new Insets(100,100,50,0));
+        itemInfo.setPadding(new Insets(120,100,50,0));
         itemInfo.setMinSize(350,350);
         itemInfo.setMaxSize(350,350);
         Text info = new Text();
+        info.setFill(Color.WHITE);
         itemInfo.getChildren().add(info);
 
         Button container = new Button("container");
@@ -712,6 +751,7 @@ public class Main extends Application {
         container.setOnAction(e -> putItemInfo(game.getAllItems().get(1), info));
         itemList.add(container, 0, 0);
         Text cMoney = new Text(Integer.toString(-game.getAllItems().get(1).getLvl()*100));
+        cMoney.setFill(Color.WHITE);
         itemList.add(cMoney, 2, 0);
         Button lvlUpC = new Button("lvl up");
         lvlUpC.setOnAction(e -> itemLvlUp(info, moneyFortify, cMoney, error, 1));
@@ -722,6 +762,7 @@ public class Main extends Application {
         van.setOnAction(e -> putItemInfo(game.getAllItems().get(0), info));
         itemList.add(van, 0, 1);
         Text vMoney = new Text(Integer.toString(-game.getAllItems().get(0).getLvl()*100));
+        vMoney.setFill(Color.WHITE);
         itemList.add(vMoney, 2, 1);
         Button lvlUpV = new Button("lvl up");
         lvlUpV.setOnAction(e -> itemLvlUp(info, moneyFortify, vMoney, error, 0));
@@ -732,6 +773,7 @@ public class Main extends Application {
         truck.setOnAction(e -> putItemInfo(game.getAllItems().get(2), info));
         itemList.add(truck, 0, 2);
         Text tMoney = new Text(Integer.toString(-game.getAllItems().get(2).getLvl()*100));
+        tMoney.setFill(Color.WHITE);
         itemList.add(tMoney, 2, 2);
         Button lvlUpT = new Button("lvl up");
         lvlUpT.setOnAction(e -> itemLvlUp(info, moneyFortify, tMoney, error, 2));
@@ -742,6 +784,7 @@ public class Main extends Application {
         powerShovel.setOnAction(e -> putItemInfo(game.getAllItems().get(3), info));
         itemList.add(powerShovel, 0, 3);
         Text pMoney = new Text(Integer.toString(-game.getAllItems().get(3).getLvl()*100));
+        pMoney.setFill(Color.WHITE);
         itemList.add(pMoney, 2, 3);
         Button lvlUpP = new Button("lvl up");
         lvlUpP.setOnAction(e -> itemLvlUp(info, moneyFortify, pMoney, error, 3));
@@ -752,6 +795,7 @@ public class Main extends Application {
         steelFramework.setOnAction(e -> putItemInfo(game.getAllItems().get(4), info));
         itemList.add(steelFramework, 0, 4);
         Text sMoney = new Text(Integer.toString(-game.getAllItems().get(4).getLvl()*100));
+        sMoney.setFill(Color.WHITE);
         itemList.add(sMoney, 2, 4);
         Button lvlUpS = new Button("lvl up");
         lvlUpS.setOnAction(e -> itemLvlUp(info, moneyFortify, sMoney, error, 4));
