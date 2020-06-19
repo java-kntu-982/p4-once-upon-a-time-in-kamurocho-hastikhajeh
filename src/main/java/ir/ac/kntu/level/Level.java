@@ -42,7 +42,13 @@ public abstract class Level {
     }
 
     public boolean itsDone(Game game) {
-        return currantWave >= waves || game.getItems().isEmpty();
+        final boolean[] allDead = {true};
+        game.getInternalSoldiers().forEach(in -> {
+            if (!in.isDead()) {
+                allDead[0] = false;
+            }
+        });
+        return currantWave >= waves || game.getItems().isEmpty() || allDead[0];
     }
 
     public boolean won() {

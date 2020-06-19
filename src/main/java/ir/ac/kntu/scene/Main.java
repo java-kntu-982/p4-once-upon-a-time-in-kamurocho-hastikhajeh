@@ -287,6 +287,7 @@ public class Main extends Application {
                 info.setText("level two\n280 soldiers in 8 waves\nContainer + Van");
                 break;
             default:
+                break;
         }
         info.setFill(Color.WHITE);
         info.setFont(Font.font("Vardana",27));
@@ -475,7 +476,6 @@ public class Main extends Application {
         GridPane back = new GridPane();
         Text error = new Text();
         Text info = new Text();
-
         trainPane(stage, back, moneyPane, soldierInfo, soldierList, info, error);
 
         Button daigoDojima = trainButton("daigoDojima", info, 0);
