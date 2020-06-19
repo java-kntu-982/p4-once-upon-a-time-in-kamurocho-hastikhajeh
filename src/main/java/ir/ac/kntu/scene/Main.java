@@ -555,6 +555,11 @@ public class Main extends Application {
         Button lvlUpSD = trainLvlUpButton(info, sdMoney, error, 10);
         soldierList.add(lvlUpSD,1,10);
 
+        train2(soldierList, info, error);
+
+    }
+
+    public void train2(GridPane soldierList, Text info, Text error) {
         Button taigaSaejima = trainButton("taigaSaejima", info, 11);
         soldierList.add(taigaSaejima,0,11);
         Text tsMoney = trainLvlUpText(Integer.toString(-game.getAllInternalSoldiers().get(11).getLvl()*10));
@@ -589,6 +594,7 @@ public class Main extends Application {
         soldierList.add(ttMoney,2,15);
         Button lvlUpTT = trainLvlUpButton(info, ttMoney, error, 13);
         soldierList.add(lvlUpTT,1,15);
+
     }
 
     public Button trainButton(String name, Text info, int index) {
